@@ -1,4 +1,4 @@
-FROM node:14-alpine as build
+FROM --platform=$BUILDPLATFORM node:14-alpine as build
 WORKDIR /build
 COPY package.json .
 COPY package-lock.json .

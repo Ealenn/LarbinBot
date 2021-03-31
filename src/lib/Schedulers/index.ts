@@ -1,4 +1,4 @@
-import { ITwitchService } from "../../services/TwitchService";
+import { ITwitchService } from '../../services/TwitchService';
 
 export interface IScheduler {
   Id: string;

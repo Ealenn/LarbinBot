@@ -1,4 +1,3 @@
-import * as dotenv from 'dotenv';
 import { singleton } from 'tsyringe';
 
 /**
@@ -33,20 +32,18 @@ export class Configuration implements IConfiguration {
   public Twitch: TwitchConfiguration;
 
   constructor() {
-    dotenv.config();
-
     // Application
     this.App = {
-      Debug: process.env.DEBUG ? true : false,
+      Debug: process.env.DEBUG?.toLocaleLowerCase() == 'true' ?? false,
       ConfigurationPath: process.env.LARBIN_FILE as string || __dirname,
       ConfigurationFile: 'larbin.yml'
     };
 
     // Twitch
     this.Twitch = {
-      Username: process.env.TWITCH_USERNAME as string,
-      Password: process.env.TWITCH_PASSWORD as string,
-      Channel: process.env.TWITCH_CHANNEL as string
+      Username: process.env.TWITCH_USERNAME as string || '',
+      Password: process.env.TWITCH_PASSWORD as string || '',
+      Channel: process.env.TWITCH_CHANNEL as string || ''
     };
   }
 }

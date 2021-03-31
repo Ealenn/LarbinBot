@@ -45,9 +45,9 @@ LARBIN_TWITCH_CHANNEL=...
 ``` yaml
 commands:
   - name: '!facebook'
-    message: 'My facebook is https://facebook.com/example'
+    message: 'My Facebook is https://facebook.com/example'
   - name: '!twitter'
-    message: 'My Twitter is https://facebook.com/example'
+    message: 'My Twitter is https://twitter.com/example'
 schedulers:
   - id: 'social'
     minutes: 10

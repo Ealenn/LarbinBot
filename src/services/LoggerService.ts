@@ -1,6 +1,7 @@
-import { inject, singleton } from "tsyringe";
+/* eslint no-console: "off" */
+import { inject, singleton } from 'tsyringe';
 import figlet from 'figlet';
-import { IConfiguration } from "../Configuration";
+import { IConfiguration } from '../Configuration';
 
 /**
  * Console interactions
@@ -9,6 +10,7 @@ export interface ILoggerService {
     Ascii(write: string): void;
     Information(write: string): void;
     Debug(write: string): void;
+    Warning(write: string): void;
     Error(write: string): void;
 }
 
@@ -39,5 +41,9 @@ export class LoggerService implements ILoggerService {
 
   public Error(write: string): void {
     console.error(`[ERROR] ${write}`);
+  }
+
+  public Warning(write: string): void {
+    console.warn(`[WARNING] ${write}`);
   }
 }

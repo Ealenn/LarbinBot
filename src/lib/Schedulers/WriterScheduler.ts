@@ -1,5 +1,5 @@
-import { IScheduler } from ".";
-import { ITwitchService } from "../../services/TwitchService";
+import { IScheduler } from '.';
+import { ITwitchService } from '../../services/TwitchService';
 
 /**
  * Simple Writer Scheduler
@@ -19,10 +19,11 @@ export class WriterScheduler implements IScheduler {
   constructor(
     id: string,
     minutes: number,
-    messages: Array<string>) {
-      this._id = id;
-      this._minutes = minutes;
-      this._messages = messages;
+    messages: Array<string>)
+  {
+    this._id = id;
+    this._minutes = minutes;
+    this._messages = messages;
   }
 
   private getMessage(): string {

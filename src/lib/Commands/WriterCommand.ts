@@ -1,5 +1,5 @@
-import { ICommand } from ".";
-import { ITwitchService } from "../../services/TwitchService";
+import { ICommand } from '.';
+import { ITwitchService } from '../../services/TwitchService';
 
 /**
  * Simple Writer Command
@@ -13,9 +13,10 @@ export class WriterCommand implements ICommand {
 
   constructor(
     trigger: string,
-    message: string) {
-      this._trigger = trigger;
-      this._message = message;
+    message: string) 
+  {
+    this._trigger = trigger;
+    this._message = message;
   }
 
   public Action(twitchService: ITwitchService): void {

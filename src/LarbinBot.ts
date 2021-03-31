@@ -1,10 +1,10 @@
-import { inject, injectable } from "tsyringe";
-import { IConfiguration } from "./Configuration";
-import { WriterCommand } from "./lib/Commands/WriterCommand";
-import { WriterScheduler } from "./lib/Schedulers/WriterScheduler";
-import { ILoggerService } from "./services/LoggerService";
-import { ITwitchService } from "./services/TwitchService";
-import { IYamlService } from "./services/YamlService";
+import { inject, injectable } from 'tsyringe';
+import { IConfiguration } from './Configuration';
+import { WriterCommand } from './lib/Commands/WriterCommand';
+import { WriterScheduler } from './lib/Schedulers/WriterScheduler';
+import { ILoggerService } from './services/LoggerService';
+import { ITwitchService } from './services/TwitchService';
+import { IYamlService } from './services/YamlService';
 
 /**
  * Twitch Bot
