@@ -59,4 +59,7 @@ schedulers:
     - 'Text rolling 1'
     - 'Text rolling 2'
     - 'Text rolling 3'
+events:
+  - name: 'raidded'
+    - message: 'Thanks to {{ Username }} for this raid of {{ Viewers }} viewers !'
 ```

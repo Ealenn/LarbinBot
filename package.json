@@ -19,6 +19,7 @@
   "repository": "https://github.com/Ealenn/LarbinBot",
   "dependencies": {
     "figlet": "^1.5.0",
+    "handlebars": "^4.7.7",
     "reflect-metadata": "^0.1.13",
     "tmi.js": "^1.5.0",
     "tsyringe": "^4.5.0",
