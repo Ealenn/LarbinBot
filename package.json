@@ -1,0 +1,40 @@
+{
+  "name": "larbin-bot",
+  "version": "1.0.0",
+  "description": "Completely customizable Twitch Bot.",
+  "engines": {
+    "node": "14.15.5"
+  },
+  "scripts": {
+    "start": "node dist/Application.js",
+    "build": "tsc",
+    "test": "jest --coverage",
+    "lint": "eslint .",
+    "watch-node": "nodemon dist/Application.js",
+    "watch-ts": "tsc -w"
+  },
+  "keywords": [],
+  "author": "Rudy Marchandise",
+  "license": "GPL-3.0",
+  "repository": "https://github.com/Ealenn/LarbinBot",
+  "dependencies": {
+    "figlet": "^1.5.0",
+    "reflect-metadata": "^0.1.13",
+    "tmi.js": "^1.5.0",
+    "tsyringe": "^4.5.0",
+    "yaml": "^1.10.2"
+  },
+  "devDependencies": {
+    "@types/figlet": "^1.5.0",
+    "@types/jest": "^26.0.22",
+    "@types/node": "^14.14.37",
+    "@types/tmi.js": "^1.7.1",
+    "@typescript-eslint/eslint-plugin": "^4.20.0",
+    "@typescript-eslint/parser": "^4.20.0",
+    "eslint": "^7.23.0",
+    "jest": "^26.6.3",
+    "moq.ts": "^7.3.4",
+    "ts-jest": "^26.5.4",
+    "typescript": "^4.2.3"
+  }
+}
