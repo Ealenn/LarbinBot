@@ -39,9 +39,9 @@ describe('Configuration', function () {
 
   it('Twitch - With environment', async function () {
     // Arrange
-    process.env.TWITCH_USERNAME = 'John';
-    process.env.TWITCH_PASSWORD = 'Smith';
-    process.env.TWITCH_CHANNEL = 'Twitch'
+    process.env.LARBIN_TWITCH_USERNAME = 'John';
+    process.env.LARBIN_TWITCH_PASSWORD = 'Smith';
+    process.env.LARBIN_TWITCH_CHANNEL = 'Twitch'
 
     // Act
     const configuration = new Configuration();
@@ -56,9 +56,9 @@ describe('Configuration', function () {
 
   it('Twitch - Without environment', async function () {
     // Arrange
-    delete process.env.TWITCH_USERNAME;
-    delete process.env.TWITCH_PASSWORD;
-    delete process.env.TWITCH_CHANNEL;
+    delete process.env.LARBIN_TWITCH_USERNAME;
+    delete process.env.LARBIN_TWITCH_PASSWORD;
+    delete process.env.LARBIN_TWITCH_CHANNEL;
 
     // Act
     const configuration = new Configuration();

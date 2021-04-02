@@ -2,9 +2,9 @@ import { IScheduler } from '.';
 import { ITwitchService } from '../../services/TwitchService';
 
 /**
- * Simple Writer Scheduler
+ * Round Robin Scheduler
  */
-export class WriterScheduler implements IScheduler {
+export class RoundRobinScheduler implements IScheduler {
   private _id: string;
   public get Id(): string {
     return this._id;
@@ -26,7 +26,7 @@ export class WriterScheduler implements IScheduler {
     this._messages = messages;
   }
 
-  private getMessage(): string {
+  protected getMessage(): string {
     const message = this._messages[this._messageIndex];
     this._messageIndex = this._messageIndex + 1;
     if (this._messageIndex >= this._messages.length) {

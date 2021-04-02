@@ -19,7 +19,8 @@ Completely customizable Twitch Bot.
         - [ ] Predictions
 - [ ] Event-based Action
     - [ ] Simple answer
-        - [ ] raided
+        - [x] join
+        - [x] raided
         - [ ] resub
         - [ ] submysterygift
         - [ ] subgift
@@ -60,6 +61,11 @@ schedulers:
     - 'Text rolling 2'
     - 'Text rolling 3'
 events:
-  - name: 'raidded'
-    - message: 'Thanks to {{ Username }} for this raid of {{ Viewers }} viewers !'
+  - name: 'join'
+    messages: 
+      - 'Less noise {{ Username }} is coming!'
+      - 'Ah! We are talking about you {{ Username }} !'
+  - name: 'raided'
+    messages: 
+      - 'Thanks to @{{ Username }} for this raid of {{ Viewers }} viewers !'
 ```

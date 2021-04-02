@@ -2,7 +2,7 @@ import { ICommand } from '.';
 import { ITwitchService } from '../../services/TwitchService';
 
 /**
- * Simple Writer Command
+ * Writer Command
  */
 export class WriterCommand implements ICommand {
   private _trigger: string;

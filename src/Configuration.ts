@@ -41,9 +41,9 @@ export class Configuration implements IConfiguration {
 
     // Twitch
     this.Twitch = {
-      Username: process.env.TWITCH_USERNAME as string || '',
-      Password: process.env.TWITCH_PASSWORD as string || '',
-      Channel: process.env.TWITCH_CHANNEL as string || ''
+      Username: process.env.LARBIN_TWITCH_USERNAME as string || '',
+      Password: process.env.LARBIN_TWITCH_PASSWORD as string || '',
+      Channel: process.env.LARBIN_TWITCH_CHANNEL as string || ''
     };
   }
 }

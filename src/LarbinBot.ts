@@ -1,7 +1,8 @@
 import { inject, injectable } from 'tsyringe';
 import { IConfiguration } from './Configuration';
-import { WriterCommand } from './lib/Commands/WriterCommand';
-import { WriterScheduler } from './lib/Schedulers/WriterScheduler';
+import { WriterCommand } from './lib/Commands';
+import { IEvent, IEventParams } from './lib/Events';
+import { IScheduler } from './lib/Schedulers';
 import { ILoggerService } from './services/LoggerService';
 import { ITwitchService } from './services/TwitchService';
 import { IYamlService } from './services/YamlService';
@@ -44,9 +45,16 @@ export class LarbinBot implements ILarbinBot {
 
     // Schedulers
     const schedulers = this._yamlService.getSchedulers();
-    schedulers.forEach((scheduler: WriterScheduler) => {
+    schedulers.forEach((scheduler: IScheduler) => {
       this._twitchService.AddScheduler(scheduler);
       this._loggerService.Debug(`Scheduler ${scheduler.Id} every ${scheduler.Minutes} minutes Added.`);
+    });
+
+    // Events
+    const events = this._yamlService.getEvents();
+    events.forEach((event: IEvent<IEventParams>) => {
+      this._twitchService.AddEvent(event);
+      this._loggerService.Debug(`Event ${event.Type} Added.`);
     });
 
     // Start

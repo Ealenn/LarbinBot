@@ -2,9 +2,9 @@ import { Client, Options } from 'tmi.js'
 import { inject, singleton } from 'tsyringe';
 import { IConfiguration } from '../Configuration';
 import { ICommand } from '../lib/Commands';
-import { EventType, IEvent, IEventParams } from '../lib/Events';
-import { RaidedEventParams } from '../lib/Events/RaidedEvent';
+import { IEvent, IEventParams } from '../lib/Events';
 import { IScheduler } from '../lib/Schedulers';
+import { EventTypeParamsMapper } from '../mappers/EventTypeParamsMapper';
 import { ILoggerService } from './LoggerService';
 
 /**
@@ -77,44 +77,9 @@ export class TwitchService implements ITwitchService {
     return this;
   }
 
-  private _getEventParams(eventType: EventType, ...args: any[]): any {
-    let params = {
-      Channel: args[0] as string
-    };
-
-    switch (eventType) {
-    case EventType.RAIDED:
-      params = Object.assign(params, {
-        Username: args[1] as string,
-        Viewers: args[2] as number
-      } as RaidedEventParams);
-      break;
-    case EventType.RESUB:
-      params = Object.assign(params, {
-        // TODO: Write params here
-      });
-      break;
-    case EventType.SUBGIFT:
-      params = Object.assign(params, {
-        // TODO: Write params here
-      });
-      break;
-    case EventType.SUBMYSTERYGIFT:
-      params = Object.assign(params, {
-        // TODO: Write params here
-      });
-      break;
-    case EventType.SUBSCRIPTION:
-      params = Object.assign(params, {
-        // TODO: Write params here
-      });
-      break;
-    }
-    return params;
-  }
   public AddEvent<T extends IEventParams>(event: IEvent<T>): ITwitchService {
     this._client.on(event.Type, (...args: any[]) => {
-      event.Action(this, this._getEventParams(event.Type, args));
+      event.Action(this, EventTypeParamsMapper(event.Type, args));
     });
     return this;
   }
