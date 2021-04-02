@@ -96,14 +96,7 @@ export class YamlService implements IYamlService {
 
     yamlContent.events.forEach((element: any) => {
       if (element.name && element.messages) {
-        switch (element.name) {
-        case EventType.RAIDED:
-          events.push(new RandomMessageEvent<RaidedEventParams>(element.name, element.messages));
-          break;
-        case EventType.JOIN:
-          events.push(new RandomMessageEvent<JoinEventParams>(element.name, element.messages));
-          break;
-        }
+        events.push(new RandomMessageEvent(element.name, element.messages));
       }
     });
 

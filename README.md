@@ -79,5 +79,5 @@ events:
       - 'Hey ! {{ Username }} is {{ GiftCount }}x more generous with {{ RecipientUsername }} !'
   - name: 'subscription'
     messages: 
-      - 'I know someone from sub but I won't say anything, alright {{ Username }} ?'
+      - 'I know someone from sub, but, I say anything, alright {{ Username }} ?'
 ```
