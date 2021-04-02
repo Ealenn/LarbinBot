@@ -68,4 +68,16 @@ events:
   - name: 'raided'
     messages: 
       - 'Thanks to @{{ Username }} for this raid of {{ Viewers }} viewers !'
+  - name: 'resub'
+    messages: 
+      - 'Thanks {{ Username }} for your {{ Months }} with us ! -- {{ Username }} say: {{ Message }}'
+  - name: 'submysterygift'
+    messages: 
+      - '{{ Username }} is rich and he just offered {{ OfferedSubs }} subscription! Thank him in the chat! (with a total of {{ GiftCount }} subscription offered)'
+  - name: 'subgift'
+    messages: 
+      - 'Hey ! {{ Username }} is {{ GiftCount }}x more generous with {{ RecipientUsername }} !'
+  - name: 'subscription'
+    messages: 
+      - 'I know someone from sub but I won't say anything, alright {{ Username }} ?'
 ```
