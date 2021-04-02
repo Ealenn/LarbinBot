@@ -2,7 +2,9 @@ import { Client, Options } from 'tmi.js'
 import { inject, singleton } from 'tsyringe';
 import { IConfiguration } from '../Configuration';
 import { ICommand } from '../lib/Commands';
+import { IEvent, IEventParams } from '../lib/Events';
 import { IScheduler } from '../lib/Schedulers';
+import { EventTypeParamsMapper } from '../mappers/EventTypeParamsMapper';
 import { ILoggerService } from './LoggerService';
 
 /**
@@ -12,6 +14,7 @@ export interface ITwitchService {
   Write(message: string): void;
   AddCommand(command: ICommand): ITwitchService;
   AddScheduler(scheduler: IScheduler): ITwitchService;
+  AddEvent<T extends IEventParams>(event: IEvent<T>): ITwitchService;
   Listen(): void;
 }
 
@@ -62,15 +65,22 @@ export class TwitchService implements ITwitchService {
     this._client.say(this._configuration.Twitch.Channel, message);
   }
 
-  public AddCommand(command: ICommand) : ITwitchService {
+  public AddCommand(command: ICommand): ITwitchService {
     this._commands.push(command);
     return this;
   }
 
-  public AddScheduler(scheduler: IScheduler) : ITwitchService {
+  public AddScheduler(scheduler: IScheduler): ITwitchService {
     setInterval((s) => {
       s.Action(this);
     }, scheduler.Minutes * 60000, scheduler);
+    return this;
+  }
+
+  public AddEvent<T extends IEventParams>(event: IEvent<T>): ITwitchService {
+    this._client.on(event.Type, (...args: any[]) => {
+      event.Action(this, EventTypeParamsMapper(event.Type, args));
+    });
     return this;
   }
 }

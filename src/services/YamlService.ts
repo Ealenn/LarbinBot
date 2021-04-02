@@ -3,16 +3,19 @@ import { IConfiguration } from '../Configuration';
 import YAML from 'yaml';
 import FS from 'fs';
 import Path from 'path';
-import { WriterCommand } from '../lib/Commands/WriterCommand';
+import { WriterCommand } from '../lib/Commands';
 import { ILoggerService } from './LoggerService';
-import { WriterScheduler } from '../lib/Schedulers/WriterScheduler';
+import { EventType, IEvent, IEventParams } from '../lib/Events';
+import { JoinEventParams, RaidedEventParams, RandomMessageEvent } from '../lib/Events';
+import { IScheduler, RoundRobinScheduler } from '../lib/Schedulers';
 
 /**
  * Provides tools for Yaml validation/parser
  */
 export interface IYamlService {
   getCommands(): Array<WriterCommand>;
-  getSchedulers(): Array<WriterScheduler>;
+  getSchedulers(): Array<IScheduler>;
+  getEvents(): Array<IEvent<IEventParams>>;
 }
 
 @singleton()
@@ -63,9 +66,9 @@ export class YamlService implements IYamlService {
     return commands;
   }
 
-  public getSchedulers(): Array<WriterScheduler> {
+  public getSchedulers(): Array<IScheduler> {
     const yamlContent = this.getYamlContent();
-    const schedulers = new Array<WriterScheduler>();
+    const schedulers = new Array<IScheduler>();
 
     if (!yamlContent || !yamlContent.schedulers) {
       return schedulers;
@@ -76,10 +79,27 @@ export class YamlService implements IYamlService {
         const id = Math.floor(
           Math.random() * (9999999 - 1111111) + 1111111
         );
-        schedulers.push(new WriterScheduler(`${element.id}#${id}`, element.minutes, element.messages));
+        schedulers.push(new RoundRobinScheduler(`${element.id}#${id}`, element.minutes, element.messages));
       }
     });
 
     return schedulers;
+  }
+
+  public getEvents(): Array<IEvent<IEventParams>> {
+    const yamlContent = this.getYamlContent();
+    const events = new Array<IEvent<IEventParams>>();
+
+    if (!yamlContent || !yamlContent.events) {
+      return events;
+    }
+
+    yamlContent.events.forEach((element: any) => {
+      if (element.name && element.messages) {
+        events.push(new RandomMessageEvent(element.name, element.messages));
+      }
+    });
+
+    return events;
   }
 }
