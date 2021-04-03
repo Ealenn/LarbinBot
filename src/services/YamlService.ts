@@ -3,17 +3,16 @@ import { IConfiguration } from '../Configuration';
 import YAML from 'yaml';
 import FS from 'fs';
 import Path from 'path';
-import { WriterCommand } from '../lib/Commands';
-import { ILoggerService } from './LoggerService';
-import { IEvent, IEventParams, RandomMessageEvent } from '../lib/Events';
-import { IScheduler, RoundRobinScheduler } from '../lib/Schedulers';
-import { ICryptoService } from './CryptoService';
+import { ICommand, RandomMessageCommand, RoundRobinMessageCommand } from '../lib/Commands';
+import { ILoggerService, ICryptoService } from '.';
+import { IEvent, IEventParams, RandomMessageEvent, RoundRobinMessageEvent } from '../lib/Events';
+import { IScheduler, RandomScheduler, RoundRobinScheduler } from '../lib/Schedulers';
 
 /**
  * Provides tools for Yaml validation/parser
  */
 export interface IYamlService {
-  getCommands(): Array<WriterCommand>;
+  getCommands(): Array<ICommand>;
   getSchedulers(): Array<IScheduler>;
   getEvents(): Array<IEvent<IEventParams>>;
 }
@@ -52,9 +51,9 @@ export class YamlService implements IYamlService {
     return this._yamlContent;
   }
 
-  public getCommands(): Array<WriterCommand> {
+  public getCommands(): Array<ICommand> {
     const yamlContent = this.getYamlContent();
-    const commands = new Array<WriterCommand>();
+    const commands = new Array<ICommand>();
 
     if (!yamlContent || !yamlContent.commands) {
       return commands;
@@ -62,7 +61,11 @@ export class YamlService implements IYamlService {
 
     yamlContent.commands.forEach(function (element: any) {
       if (element.name && element.message) {
-        commands.push(new WriterCommand(element.name, element.message));
+        if (element.random) {
+          commands.push(new RandomMessageCommand(element.name, element.message));
+        } else {
+          commands.push(new RoundRobinMessageCommand(element.name, element.message));
+        }
       }
     });
 
@@ -79,8 +82,11 @@ export class YamlService implements IYamlService {
 
     yamlContent.schedulers.forEach((element: any) => {
       if (element.id && element.minutes && element.messages) {
-        schedulers.push(new RoundRobinScheduler(
-          `${element.id}#${this._cryptoService.UniqueString(6)}`, element.minutes, element.messages));
+        if (element.random) {
+          schedulers.push(new RandomScheduler(`${element.id}#${this._cryptoService.UniqueString(6)}`, element.minutes, element.messages));
+        } else {
+          schedulers.push(new RoundRobinScheduler(`${element.id}#${this._cryptoService.UniqueString(6)}`, element.minutes, element.messages));
+        }
       }
     });
 
@@ -97,7 +103,11 @@ export class YamlService implements IYamlService {
 
     yamlContent.events.forEach((element: any) => {
       if (element.name && element.messages) {
-        events.push(new RandomMessageEvent(element.name, element.messages));
+        if (element.random) {
+          events.push(new RandomMessageEvent(element.name, element.messages));
+        } else {
+          events.push(new RoundRobinMessageEvent(element.name, element.messages));
+        }
       }
     });
 

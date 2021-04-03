@@ -12,4 +12,5 @@ export interface IScheduler {
 /**
  * Schedulers
  */
+export * from './RandomScheduler';
 export * from './RoundRobinScheduler';

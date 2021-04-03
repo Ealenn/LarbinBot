@@ -4,6 +4,7 @@
 [![GitHub stars](https://img.shields.io/github/stars/Ealenn/LarbinBot?style=for-the-badge&logo=github)](https://github.com/Ealenn/LarbinBot/stargazers)
 [![GitHub issues](https://img.shields.io/github/issues/Ealenn/LarbinBot?style=for-the-badge&logo=github)](https://github.com/Ealenn/LarbinBot/issues)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/ealenn/LarbinBot?style=for-the-badge)
+![Docker Pulls](https://img.shields.io/docker/pulls/ealen/larbinbot?style=for-the-badge)
 
 Completely customizable Twitch Bot. 
 
@@ -17,41 +18,59 @@ Completely customizable Twitch Bot.
     - [ ] Interaction with twitch APIs
         - [ ] Change Title
         - [ ] Predictions
-- [ ] Event-based Action
-    - [ ] Simple answer
+- [x] Event-based Action
+    - [x] Simple answer
         - [x] join
         - [x] raided
-        - [ ] resub
-        - [ ] submysterygift
-        - [ ] subgift
-        - [ ] subscription
+        - [x] resub
+        - [x] submysterygift
+        - [x] subgift
+        - [x] subscription
 - [x] Scheduler
     - [x] Chat message
     - [ ] Execute command
 
-## Configuration
+## Larbin Configuration File (LCF)
+
+You must configure this bot with configuration file `larbin.yml`. 
+This file contain all actions/events and commands. 
+By default, this file is on the root of project.
+
+You can override path of this file with envirenment variable :
 
 ``` bash
-# Configuration
-LARBIN_FILE=... # Optional
-
-# Twitch Credentials
-LARBIN_TWITCH_USERNAME=...
-LARBIN_TWITCH_PASSWORD=...
-LARBIN_TWITCH_CHANNEL=...
+LARBIN_FILE=/tmp
 ```
 
-## Bot Automation 
+You can also use DEBUG MODE with : 
+
+``` bash
+DEBUG=true
+```
+
+## Larbin Credentials
+
+``` bash
+LARBIN_TWITCH_USERNAME: Larbin
+LARBIN_TWITCH_PASSWORD: oic:password
+LARBIN_TWITCH_CHANNEL: example
+```
+
+### Sample
 
 ``` yaml
 commands:
-  - name: '!facebook'
-    message: 'My Facebook is https://facebook.com/example'
+  - name: '!facebook' # Command to write 
+    random: true # Takes a random message from the list rather than following the order of the list 
+    messages: 
+      - 'My Facebook is https://facebook.com/example'
   - name: '!twitter'
-    message: 'My Twitter is https://twitter.com/example'
+    messages: 
+      - 'My Twitter is https://twitter.com/example'
 schedulers:
-  - id: 'social'
-    minutes: 10
+  - id: 'social' # Required, is only used to make this scheduler unique
+    minutes: 10 # Send message every minutes
+    random: true # Takes a random message from the list rather than following the order of the list 
     messages:
     - 'Follow me on Twitter https://twitter.com/example'
   - id: 'other'
@@ -61,8 +80,9 @@ schedulers:
     - 'Text rolling 2'
     - 'Text rolling 3'
 events:
-  - name: 'join'
-    messages: 
+  - name: 'join' # Event type
+    random: true # Takes a random message from the list rather than following the order of the list 
+    messages:
       - 'Less noise {{ Username }} is coming!'
       - 'Ah! We are talking about you {{ Username }} !'
   - name: 'raided'
@@ -80,4 +100,22 @@ events:
   - name: 'subscription'
     messages: 
       - 'I know someone from sub, but, I say anything, alright {{ Username }} ?'
+```
+
+## Docker Compose
+
+```yaml
+version: "3"
+
+services:
+  bot:
+    image: ealen/larbinbot:latest
+    environment:
+      - DEBUG: true
+      - LARBIN_FILE: /tmp
+      - LARBIN_TWITCH_USERNAME: Larbin
+      - LARBIN_TWITCH_PASSWORD: oic:password
+      - LARBIN_TWITCH_CHANNEL: example
+    volumes:
+      - ${PWD}/config:/tmp
 ```
