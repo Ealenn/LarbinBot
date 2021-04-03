@@ -88,7 +88,7 @@ events:
       - 'Ah! We are talking about you {{ Username }} !'
   - name: 'raided'
     messages: 
-      - 'Thanks to @{{ Username }} for this raid of {{ Viewers }} viewers !'
+      - 'Thanks to {{ Username }} for this raid of {{ Viewers }} viewers !'
   - name: 'resub'
     messages: 
       - 'Thanks {{ Username }} for your {{ Months }} with us ! -- {{ Username }} say: {{ Message }}'

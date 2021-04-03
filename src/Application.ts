@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import 'reflect-metadata';
 import { LarbinBot } from './LarbinBot';
 import { container } from 'tsyringe';

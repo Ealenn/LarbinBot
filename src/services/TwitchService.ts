@@ -1,4 +1,4 @@
-import { Client, Options } from 'tmi.js'
+import { Client } from 'tmi.js'
 import { inject, singleton } from 'tsyringe';
 import { IConfiguration } from '../Configuration';
 import { ICommand } from '../lib/Commands';
@@ -6,6 +6,7 @@ import { IEvent, IEventParams } from '../lib/Events';
 import { IScheduler } from '../lib/Schedulers';
 import { EventTypeParamsMapper } from '../mappers/EventTypeParamsMapper';
 import { ILoggerService } from '.';
+import { ITmiFactory } from '../factory/TmiFactory';
 
 /**
  * Provides all twitch tools 
@@ -27,29 +28,12 @@ export class TwitchService implements ITwitchService {
 
   constructor(
     @inject('ILoggerService') loggerService: ILoggerService,
-    @inject('IConfiguration') configuration: IConfiguration
+    @inject('IConfiguration') configuration: IConfiguration,
+    @inject('ITmiFactory') tmiFactory: ITmiFactory
   ) {
     this._loggerService = loggerService;
     this._configuration = configuration;
-    const twitchOptions = {
-      options: { debug: this._configuration.App.Debug },
-      connection: {
-        reconnect: true,
-        secure: true
-      },
-      identity: {
-        username: this._configuration.Twitch.Username,
-        password: this._configuration.Twitch.Password
-      },
-      channels: [this._configuration.Twitch.Channel],
-      logger: {
-        error: this._loggerService.Error,
-        info: this._loggerService.Information,
-        warn: this._loggerService.Warning
-      }
-    } as Options;
-    this._client = new Client(twitchOptions);
-    this._client.connect();
+    this._client = tmiFactory.Client;
   }
 
   public Listen(): void {
@@ -73,7 +57,7 @@ export class TwitchService implements ITwitchService {
   }
 
   public AddScheduler(scheduler: IScheduler): ITwitchService {
-    setInterval((s: any) => {
+    setInterval((s: IScheduler) => {
       s.Action(this);
     }, scheduler.Minutes * 60000, scheduler);
     return this;

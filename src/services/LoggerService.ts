@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 /* eslint no-console: "off" */
 import { inject, singleton } from 'tsyringe';
 import figlet from 'figlet';
