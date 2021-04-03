@@ -56,7 +56,9 @@ export class TwitchService implements ITwitchService {
     this._client.on('message', (channels, userstate, message) => {
       const command = this._commands.find((x) => x.Trigger == message);
       if (command != undefined) {
-        command.Action(this, userstate);
+        if (!command.OnlyMods || (command.OnlyMods && userstate.mod == true)) {
+          command.Action(this, userstate);
+        }
       }
     });
   }

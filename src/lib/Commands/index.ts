@@ -6,6 +6,7 @@ import { ITwitchService } from '../../services/TwitchService';
  */
 export interface ICommand {
   Trigger: string;
+  OnlyMods: boolean;
   Action(twitchService: ITwitchService, state: ChatUserstate): void;
 }
 
