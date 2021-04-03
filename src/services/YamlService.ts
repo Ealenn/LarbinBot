@@ -5,9 +5,9 @@ import FS from 'fs';
 import Path from 'path';
 import { WriterCommand } from '../lib/Commands';
 import { ILoggerService } from './LoggerService';
-import { EventType, IEvent, IEventParams } from '../lib/Events';
-import { JoinEventParams, RaidedEventParams, RandomMessageEvent } from '../lib/Events';
+import { IEvent, IEventParams, RandomMessageEvent } from '../lib/Events';
 import { IScheduler, RoundRobinScheduler } from '../lib/Schedulers';
+import { ICryptoService } from './CryptoService';
 
 /**
  * Provides tools for Yaml validation/parser
@@ -23,13 +23,16 @@ export class YamlService implements IYamlService {
   private _loggerService: ILoggerService;
   private _yamlContent: any;
   private _configuration: IConfiguration;
+  private _cryptoService: ICryptoService;
 
   constructor(
     @inject('ILoggerService') loggerService: ILoggerService,
-    @inject('IConfiguration') configuration: IConfiguration
+    @inject('IConfiguration') configuration: IConfiguration,
+    @inject('ICryptoService') cryptoService: ICryptoService
   ) {
     this._loggerService = loggerService;
     this._configuration = configuration;
+    this._cryptoService = cryptoService;
   }
 
   private getYamlContent(): any {
@@ -76,10 +79,8 @@ export class YamlService implements IYamlService {
 
     yamlContent.schedulers.forEach((element: any) => {
       if (element.id && element.minutes && element.messages) {
-        const id = Math.floor(
-          Math.random() * (9999999 - 1111111) + 1111111
-        );
-        schedulers.push(new RoundRobinScheduler(`${element.id}#${id}`, element.minutes, element.messages));
+        schedulers.push(new RoundRobinScheduler(
+          `${element.id}#${this._cryptoService.UniqueString(6)}`, element.minutes, element.messages));
       }
     });
 
