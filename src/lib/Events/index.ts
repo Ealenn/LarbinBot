@@ -70,3 +70,4 @@ export class SubscriptionEventParams implements IEventParams {
  * Events
  */
 export * from './RandomMessageEvent';
+export * from './RoundRobinMessageEvent';

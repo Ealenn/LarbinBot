@@ -1,11 +1,9 @@
 import { inject, injectable } from 'tsyringe';
 import { IConfiguration } from './Configuration';
-import { WriterCommand } from './lib/Commands';
+import { ICommand } from './lib/Commands';
 import { IEvent, IEventParams } from './lib/Events';
 import { IScheduler } from './lib/Schedulers';
-import { ILoggerService } from './services/LoggerService';
-import { ITwitchService } from './services/TwitchService';
-import { IYamlService } from './services/YamlService';
+import { ILoggerService, ITwitchService, IYamlService} from './services';
 
 /**
  * Twitch Bot
@@ -38,7 +36,7 @@ export class LarbinBot implements ILarbinBot {
     
     // Commands
     const commands = this._yamlService.getCommands();
-    commands.forEach((command: WriterCommand) => {
+    commands.forEach((command: ICommand) => {
       this._twitchService.AddCommand(command);
       this._loggerService.Debug(`Command ${command.Trigger} Added.`);
     });

@@ -12,4 +12,5 @@ export interface ICommand {
 /**
  * Commands
  */
-export * from './WriterCommand'
+export * from './RandomMessageCommand';
+export * from './RoundRobinMessageCommand';
