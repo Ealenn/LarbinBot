@@ -5,7 +5,7 @@ import { ICommand } from '../lib/Commands';
 import { IEvent, IEventParams } from '../lib/Events';
 import { IScheduler } from '../lib/Schedulers';
 import { EventTypeParamsMapper } from '../mappers/EventTypeParamsMapper';
-import { ILoggerService } from './LoggerService';
+import { ILoggerService } from '.';
 
 /**
  * Provides all twitch tools 

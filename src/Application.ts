@@ -5,6 +5,7 @@ import { LoggerService } from './services/LoggerService';
 import { Configuration } from './Configuration';
 import { TwitchService } from './services/TwitchService';
 import { YamlService } from './services/YamlService';
+import { CryptoService } from './services/CryptoService';
 
 /**
  * DI
@@ -16,6 +17,7 @@ container
   .register('ITwitchService', { useClass: TwitchService })
   // Configuration
   .register('IConfiguration', { useClass: Configuration })
+  .register('ICryptoService', { useClass: CryptoService })
   .register('IYamlService', { useClass: YamlService })
 
 /**
