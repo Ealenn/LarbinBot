@@ -73,7 +73,7 @@ export class TwitchService implements ITwitchService {
   }
 
   public AddScheduler(scheduler: IScheduler): ITwitchService {
-    setInterval((s) => {
+    setInterval((s: any) => {
       s.Action(this);
     }, scheduler.Minutes * 60000, scheduler);
     return this;
