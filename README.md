@@ -62,6 +62,7 @@ LARBIN_TWITCH_CHANNEL: example
 commands:
   - name: '!facebook' # Command to write 
     random: true # Takes a random message from the list rather than following the order of the list 
+    onlyMods: true # Only moderators can run this command
     messages: 
       - 'My Facebook is https://facebook.com/example'
   - name: '!twitter'

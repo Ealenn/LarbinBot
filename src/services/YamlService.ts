@@ -61,10 +61,11 @@ export class YamlService implements IYamlService {
 
     yamlContent.commands.forEach(function (element: any) {
       if (element.name && element.message) {
+        const onlyMods = element.onlyMods as boolean || false;
         if (element.random) {
-          commands.push(new RandomMessageCommand(element.name, element.message));
+          commands.push(new RandomMessageCommand(element.name, onlyMods, element.message));
         } else {
-          commands.push(new RoundRobinMessageCommand(element.name, element.message));
+          commands.push(new RoundRobinMessageCommand(element.name, onlyMods, element.message));
         }
       }
     });
