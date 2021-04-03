@@ -18,6 +18,7 @@
   "license": "GPL-3.0",
   "repository": "https://github.com/Ealenn/LarbinBot",
   "dependencies": {
+    "axios": "^0.21.1",
     "crypto": "^1.0.1",
     "figlet": "^1.5.0",
     "handlebars": "^4.7.7",

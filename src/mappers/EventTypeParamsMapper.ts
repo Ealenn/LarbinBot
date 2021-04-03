@@ -1,4 +1,5 @@
 /* istanbul ignore file */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { EventType, IEventParams, ResubEventParams } from '../lib/Events';
 import { JoinEventParams, RaidedEventParams, SubMysteryGiftEventParams, SubscriptionEventParams } from '../lib/Events';
 

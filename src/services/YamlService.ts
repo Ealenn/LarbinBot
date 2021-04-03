@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { inject, singleton } from 'tsyringe';
 import { IConfiguration } from '../Configuration';
 import YAML from 'yaml';
