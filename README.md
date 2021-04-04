@@ -59,10 +59,25 @@ LARBIN_TWITCH_CHANNEL: example
 ### Sample
 
 ``` yaml
+tools:
+  commands:
+    # Command to start/stop schedulers
+    # Example:
+    # !schedulers status
+    # !schedulers on
+    # !schedulers off
+    - type: schedulers
+      name: '!schedulers'
+        policies:
+          onlyMods: true # IMPORTANT
+      argOn: 'on'
+      argOff: 'off'
+      argStatus: 'status'
 commands:
   - name: '!facebook' # Command to write 
-    random: true # Takes a random message from the list rather than following the order of the list 
-    onlyMods: true # Only moderators can run this command
+    random: true # Takes a random message from the list rather than following the order of the list
+    policies:
+      onlyMods: true # Only moderators can run this command
     messages: 
       - 'My Facebook is https://facebook.com/example'
   - name: '!twitter'
@@ -88,7 +103,7 @@ events:
       - 'Ah! We are talking about you {{ Username }} !'
   - name: 'raided'
     messages: 
-      - 'Thanks to @{{ Username }} for this raid of {{ Viewers }} viewers !'
+      - 'Thanks to {{ Username }} for this raid of {{ Viewers }} viewers !'
   - name: 'resub'
     messages: 
       - 'Thanks {{ Username }} for your {{ Months }} with us ! -- {{ Username }} say: {{ Message }}'

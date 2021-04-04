@@ -1,12 +1,14 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { inject, singleton } from 'tsyringe';
 import { IConfiguration } from '../Configuration';
 import YAML from 'yaml';
 import FS from 'fs';
 import Path from 'path';
-import { ICommand, RandomMessageCommand, RoundRobinMessageCommand } from '../lib/Commands';
+import { CommandPolicies, ICommand, RandomMessageCommand, RoundRobinMessageCommand } from '../lib/Commands';
 import { ILoggerService, ICryptoService } from '.';
 import { IEvent, IEventParams, RandomMessageEvent, RoundRobinMessageEvent } from '../lib/Events';
 import { IScheduler, RandomScheduler, RoundRobinScheduler } from '../lib/Schedulers';
+import { SchedulersToolsCommand } from '../lib/Commands/Tools';
 
 /**
  * Provides tools for Yaml validation/parser
@@ -51,6 +53,13 @@ export class YamlService implements IYamlService {
     return this._yamlContent;
   }
 
+  protected _getCommandPolicies(policies: any): CommandPolicies {
+    const commandPolicies = new CommandPolicies();
+    if (policies && policies.onlyMods) {
+      commandPolicies.OnlyMods = policies.onlyMods === 'true';
+    }
+    return commandPolicies;
+  }
   public getCommands(): Array<ICommand> {
     const yamlContent = this.getYamlContent();
     const commands = new Array<ICommand>();
@@ -59,14 +68,25 @@ export class YamlService implements IYamlService {
       return commands;
     }
 
-    yamlContent.commands.forEach(function (element: any) {
+    yamlContent.commands?.forEach((element: any) => {
       if (element.name && element.message) {
-        const onlyMods = element.onlyMods as boolean || false;
         if (element.random) {
-          commands.push(new RandomMessageCommand(element.name, onlyMods, element.message));
+          commands.push(new RandomMessageCommand(element.name, this._getCommandPolicies(element.policies), element.message));
         } else {
-          commands.push(new RoundRobinMessageCommand(element.name, onlyMods, element.message));
+          commands.push(new RoundRobinMessageCommand(element.name, this._getCommandPolicies(element.policies), element.message));
         }
+      }
+    });
+
+    yamlContent.tools?.commands?.forEach((element: any) => {
+      if (element.type === 'schedulers' && element.argOn && element.argOff && element.argStatus) {
+        commands.push(new SchedulersToolsCommand(
+          element.name,
+          this._getCommandPolicies(element.policies),
+          this._configuration,
+          element.argOn,
+          element.argOff,
+          element.argStatus));
       }
     });
 
