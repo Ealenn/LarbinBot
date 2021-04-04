@@ -6,11 +6,11 @@ import { ITwitchService } from '../../services/TwitchService';
  * Policies Command 
  */
 export class CommandPolicies {
-  Others = false;
-  Mod = false;
-  Admin = false;
-  Sub = false;
-  Vip = false;
+  public Admin = false;
+  public Mod = false;
+  public Vip = false;
+  public Sub = false;
+  public Others = false;
 }
 
 /**
