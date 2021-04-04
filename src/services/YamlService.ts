@@ -9,7 +9,6 @@ import { ILoggerService, ICryptoService } from '.';
 import { IEvent, IEventParams, RandomMessageEvent, RoundRobinMessageEvent } from '../lib/Events';
 import { IScheduler, RandomScheduler, RoundRobinScheduler } from '../lib/Schedulers';
 import { SchedulersToolsCommand } from '../lib/Commands/Tools';
-import { ICacheService } from './CacheService';
 
 /**
  * Provides tools for Yaml validation/parser
