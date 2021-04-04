@@ -7,6 +7,7 @@ import { IScheduler } from '../lib/Schedulers';
 import { EventTypeParamsMapper } from '../mappers/EventTypeParamsMapper';
 import { ILoggerService } from '.';
 import { ITmiFactory } from '../factory/TmiFactory';
+import { setInterval, clearInterval } from 'timers';
 
 /**
  * Provides all twitch tools 
@@ -15,6 +16,9 @@ export interface ITwitchService {
   Write(message: string): void;
   AddCommand(command: ICommand): ITwitchService;
   AddScheduler(scheduler: IScheduler): ITwitchService;
+  StartSchedulers(): void;
+  StopSchedulers(): void;
+  StatusSchedulers(): boolean;
   AddEvent<T extends IEventParams>(event: IEvent<T>): ITwitchService;
   Listen(): void;
 }
@@ -22,6 +26,9 @@ export interface ITwitchService {
 @singleton()
 export class TwitchService implements ITwitchService {
   private _commands: Array<ICommand> = new Array<ICommand>();
+  private _schedulers: Array<IScheduler> = new Array<IScheduler>();
+  private _schedulersIntervals: Array<NodeJS.Timeout> = new Array<NodeJS.Timeout>();
+
   private _loggerService: ILoggerService;
   private _configuration: IConfiguration;
   private _client: Client;
@@ -37,10 +44,11 @@ export class TwitchService implements ITwitchService {
   }
 
   public Listen(): void {
+    this.StartSchedulers();
     this._client.on('message', (channels, userstate, message) => {
       const command = this._commands.find((x) => message.startsWith(x.Trigger));
       if (command != undefined) {
-        if (command.CanAction(userstate)) {
+        if (command.CanAction(userstate, this._configuration)) {
           command.Action(this, message, userstate);
         }
       }
@@ -57,12 +65,27 @@ export class TwitchService implements ITwitchService {
   }
 
   public AddScheduler(scheduler: IScheduler): ITwitchService {
-    setInterval((s: IScheduler) => {
-      if (this._configuration.Schedulers.Enabled) {
-        s.Action(this);
-      }
-    }, scheduler.Minutes * 60000, scheduler);
+    this._schedulers.push(scheduler);
     return this;
+  }
+
+  public StartSchedulers(): void {
+    this.StopSchedulers();
+    this._schedulers.forEach((scheduler) => {
+      const interval = setInterval((twitchService) => scheduler.Action(twitchService), scheduler.Minutes * 60000, this);
+      this._schedulersIntervals.push(interval);
+    })
+  }
+
+  public StopSchedulers(): void {
+    this._schedulersIntervals.forEach((intervalId: NodeJS.Timeout) => {
+      clearInterval(intervalId);
+    });
+    this._schedulersIntervals = new Array<NodeJS.Timeout>();
+  }
+
+  public StatusSchedulers(): boolean {
+    return this._schedulersIntervals.length > 0;
   }
 
   public AddEvent<T extends IEventParams>(event: IEvent<T>): ITwitchService {

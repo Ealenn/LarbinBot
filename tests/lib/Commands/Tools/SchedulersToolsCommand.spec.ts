@@ -11,16 +11,30 @@ describe('Commands - Tools - SchedulersToolsCommand', function () {
     // Arrange
     const Trigger = '!command';
     const FullText = Trigger;
-    const Policies = {
-      OnlyMods: true
-    } as CommandPolicies;
+    const Policies = new CommandPolicies();
 
     const argStatus = 'status';
     const argOn = 'on';
     const argOff = 'off';
 
+    let schedulerStatus = true;
     const twitchService = new Mock<ITwitchService>();
     twitchService.setup(x => x.Write(It.IsAny())).returns();
+    twitchService.setup(x => x.StartSchedulers).callback((interaction: any) => {
+      return () => {
+        schedulerStatus = true
+      }
+    });
+    twitchService.setup(x => x.StopSchedulers).callback((interaction: any) => {
+      return () => {
+        schedulerStatus = false
+      }
+    });
+    twitchService.setup(x => x.StatusSchedulers).callback((interaction: any) => {
+      return () => {
+        return schedulerStatus;
+      }
+    });
 
     const configuration = new Configuration();
     const command = new SchedulersToolsCommand(Trigger, Policies, configuration, argOn, argOff, argStatus);

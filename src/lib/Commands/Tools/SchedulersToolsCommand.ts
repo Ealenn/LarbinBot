@@ -46,17 +46,17 @@ export class SchedulersToolsCommand extends BaseCommand {
   }
 
   protected _statusAction(twitchService: ITwitchService): void {
-    const status = this._configuration.Schedulers.Enabled;
+    const status = twitchService.StatusSchedulers();
     twitchService.Write(`The schedulers is ${status ? 'ON' : 'OFF'}`);
   }
 
   protected _onAction(twitchService: ITwitchService): void {
-    this._configuration.Schedulers.Enabled = true;
+    twitchService.StartSchedulers();
     this._statusAction(twitchService);
   }
 
   protected _offAction(twitchService: ITwitchService): void {
-    this._configuration.Schedulers.Enabled = false;
+    twitchService.StopSchedulers();
     this._statusAction(twitchService);
   }
 }

@@ -13,7 +13,7 @@ Completely customizable Twitch Bot.
 - [x] Execute commands
     - [x] Simple answer 
     - [ ] Custom command
-- [ ] Role-Based Access Control
+- [x] Role-Based Access Control
     - [ ] Interaction with custom APIs
     - [ ] Interaction with twitch APIs
         - [ ] Change Title
@@ -68,19 +68,22 @@ tools:
     # !schedulers off
     - type: schedulers
       name: '!schedulers'
-        policies:
-          onlyMods: true # IMPORTANT
+      policies:
+        mod: true
+        admin: true
       argOn: 'on'
       argOff: 'off'
       argStatus: 'status'
 commands:
   - name: '!facebook' # Command to write 
-    random: true # Takes a random message from the list rather than following the order of the list
+    random: false # Takes a random message from the list rather than following the order of the list
     policies:
-      onlyMods: true # Only moderators can run this command
+      others: true # All
     messages: 
       - 'My Facebook is https://facebook.com/example'
   - name: '!twitter'
+    policies:
+      others: true # All
     messages: 
       - 'My Twitter is https://twitter.com/example'
 schedulers:
@@ -116,6 +119,18 @@ events:
   - name: 'subscription'
     messages: 
       - 'I know someone from sub, but, I say anything, alright {{ Username }} ?'
+```
+
+### Policies
+
+``` yaml
+# DEFAULT POLICIES VALUES
+policies:
+  mod: false
+  admin: false
+  vip: false
+  sub: false
+  others: false
 ```
 
 ## Docker Compose
