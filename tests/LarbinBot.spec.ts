@@ -3,7 +3,7 @@ import { LarbinBot } from '../src/LarbinBot';
 import { Configuration } from '../src/Configuration';
 import { Mock, Times } from 'moq.ts';
 import { LoggerService, TwitchService, YamlService } from '../src/services';
-import { ICommand } from '../src/lib/Commands';
+import { CommandPolicies, ICommand } from '../src/lib/Commands';
 import { EventType, IEvent, IEventParams } from '../src/lib/Events';
 import { IScheduler } from '../src/lib/Schedulers';
 
@@ -42,7 +42,7 @@ describe('LarbinBot', function () {
     for (let i = 0; i < numberOfResult; i++) {
       const mockCommand = new Mock<ICommand>();
       mockCommand.setup(x => x.Trigger).returns(`!${i}`);
-      mockCommand.setup(x => x.OnlyMods).returns(false);
+      mockCommand.setup(x => x.Policies).returns(new CommandPolicies());
       mockCommand.setup(x => x.Action).returns(() => {});
       returns.push(mockCommand.object());
     }
