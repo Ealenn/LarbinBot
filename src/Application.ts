@@ -8,6 +8,7 @@ import { TwitchService } from './services/TwitchService';
 import { YamlService } from './services/YamlService';
 import { CryptoService } from './services/CryptoService';
 import { TmiFactory } from './factory/TmiFactory';
+import { CacheService } from './services/CacheService';
 
 /**
  * DI
@@ -21,6 +22,7 @@ container
   .register('ITmiFactory', { useClass: TmiFactory})
   // Configuration
   .register('IConfiguration', { useClass: Configuration })
+  .register('ICacheService', { useClass: CacheService })
   .register('ICryptoService', { useClass: CryptoService })
   .register('IYamlService', { useClass: YamlService })
 
