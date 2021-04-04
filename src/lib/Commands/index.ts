@@ -1,11 +1,16 @@
 import { ChatUserstate, Userstate } from 'tmi.js';
+import { Configuration } from '../../Configuration';
 import { ITwitchService } from '../../services/TwitchService';
 
 /**
  * Policies Command 
  */
 export class CommandPolicies {
-  OnlyMods = false;
+  public Admin = false;
+  public Mod = false;
+  public Vip = false;
+  public Sub = false;
+  public Others = false;
 }
 
 /**
@@ -15,7 +20,7 @@ export interface ICommand {
   Trigger: string;
   Policies: CommandPolicies;
   Action(twitchService: ITwitchService, fullMessage: string, state: ChatUserstate): void;
-  CanAction(userState: Userstate): boolean;
+  CanAction(userState: Userstate, configuration: Configuration): boolean;
 }
 
 export abstract class BaseCommand implements ICommand {
@@ -35,10 +40,22 @@ export abstract class BaseCommand implements ICommand {
 
   abstract Action(twitchService: ITwitchService, fullMessage: string, userState: ChatUserstate): void;
   public CanAction(userState: Userstate): boolean {
-    if (this._policies.OnlyMods && !userState.mod) {
-      return false;
+    if (this._policies.Sub && userState.subscriber) {
+      return true;
     }
-    return true;
+    if (this._policies.Vip && userState.badges?.vip) {
+      return true;
+    }
+    if (this._policies.Mod && userState.mod) {
+      return true;
+    }
+    if (this._policies.Admin && (userState.badges?.admin != null || userState.badges?.broadcaster != null)) {
+      return true;
+    }
+    if (this.Policies.Others) {
+      return this.Policies.Others;
+    }
+    return false;
   }
 }
 

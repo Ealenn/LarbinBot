@@ -9,9 +9,7 @@ describe('Commands - RoundRobinMessageCommand', function () {
     // Arrange
     const Trigger = '!command';
     const FullText = Trigger;
-    const Policies = {
-      OnlyMods: true
-    } as CommandPolicies;
+    const Policies = new CommandPolicies();
 
     const messages = [
       'test1',

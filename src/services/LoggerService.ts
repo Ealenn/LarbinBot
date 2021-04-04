@@ -10,7 +10,7 @@ import { IConfiguration } from '../Configuration';
 export interface ILoggerService {
     Ascii(write: string): void;
     Information(write: string): void;
-    Debug(write: string): void;
+    Debug(write: string, ...args: any): void;
     Warning(write: string): void;
     Error(write: string): void;
 }
@@ -34,9 +34,9 @@ export class LoggerService implements ILoggerService {
     console.info(`[INFO] ${write}`);
   }
 
-  public Debug(write: string): void {
+  public Debug(write: string, ...args: any): void {
     if (this._configuration.App.Debug){
-      console.debug(`[DEBUG] ${write}`);
+      console.debug(`[DEBUG] ${write}`, args);
     }
   }
 

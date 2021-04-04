@@ -38,7 +38,7 @@ export class LarbinBot implements ILarbinBot {
     const commands = this._yamlService.getCommands();
     commands.forEach((command: ICommand) => {
       this._twitchService.AddCommand(command);
-      this._loggerService.Debug(`Command ${command.Trigger} Added.`);
+      this._loggerService.Debug(`Command ${command.Trigger} Added.`, command.Policies);
     });
 
     // Schedulers

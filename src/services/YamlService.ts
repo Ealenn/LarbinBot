@@ -54,11 +54,18 @@ export class YamlService implements IYamlService {
   }
 
   protected _getCommandPolicies(policies: any): CommandPolicies {
-    const commandPolicies = new CommandPolicies();
-    if (policies && policies.onlyMods) {
-      commandPolicies.OnlyMods = policies.onlyMods === 'true';
+    const defaultPolicies = new CommandPolicies();
+    if (!policies) {
+      return defaultPolicies;
     }
-    return commandPolicies;
+
+    return {
+      Admin: policies.admin ?? defaultPolicies.Admin,
+      Mod: policies.mod ?? defaultPolicies.Mod,
+      Vip: policies.vip ?? defaultPolicies.Vip,
+      Sub: policies.sub ?? defaultPolicies.Sub,
+      Others: policies.others ?? defaultPolicies.Others
+    } as CommandPolicies;
   }
   public getCommands(): Array<ICommand> {
     const yamlContent = this.getYamlContent();
@@ -69,11 +76,11 @@ export class YamlService implements IYamlService {
     }
 
     yamlContent.commands?.forEach((element: any) => {
-      if (element.name && element.message) {
+      if (element.name && element.messages) {
         if (element.random) {
-          commands.push(new RandomMessageCommand(element.name, this._getCommandPolicies(element.policies), element.message));
+          commands.push(new RandomMessageCommand(element.name, this._getCommandPolicies(element.policies), element.messages));
         } else {
-          commands.push(new RoundRobinMessageCommand(element.name, this._getCommandPolicies(element.policies), element.message));
+          commands.push(new RoundRobinMessageCommand(element.name, this._getCommandPolicies(element.policies), element.messages));
         }
       }
     });
