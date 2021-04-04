@@ -38,10 +38,10 @@ export class TwitchService implements ITwitchService {
 
   public Listen(): void {
     this._client.on('message', (channels, userstate, message) => {
-      const command = this._commands.find((x) => x.Trigger == message);
+      const command = this._commands.find((x) => message.startsWith(x.Trigger));
       if (command != undefined) {
-        if (!command.OnlyMods || (command.OnlyMods && userstate.mod == true)) {
-          command.Action(this, userstate);
+        if (command.CanAction(userstate)) {
+          command.Action(this, message, userstate);
         }
       }
     });

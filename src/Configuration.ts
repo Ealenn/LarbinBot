@@ -19,17 +19,26 @@ export class TwitchConfiguration {
 }
 
 /**
+ * Schedulers Configuration
+ */
+export class SchedulersConfiguration {
+  public Enabled: boolean;
+}
+
+/**
  * Provide Configuration
  */
 export interface IConfiguration {
   App: AppConfiguration;
   Twitch: TwitchConfiguration;
+  Schedulers: SchedulersConfiguration;
 }
 
 @singleton()
 export class Configuration implements IConfiguration {
   public App: AppConfiguration;
   public Twitch: TwitchConfiguration;
+  public Schedulers: SchedulersConfiguration;
 
   constructor() {
     // Application
@@ -44,6 +53,10 @@ export class Configuration implements IConfiguration {
       Username: process.env.LARBIN_TWITCH_USERNAME as string || '',
       Password: process.env.LARBIN_TWITCH_PASSWORD as string || '',
       Channel: process.env.LARBIN_TWITCH_CHANNEL as string || ''
+    };
+
+    this.Schedulers = {
+      Enabled: true
     };
   }
 }

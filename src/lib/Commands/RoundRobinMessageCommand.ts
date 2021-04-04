@@ -1,28 +1,19 @@
-import { ICommand } from '.';
+import { BaseCommand, CommandPolicies } from '.';
 import { ITwitchService } from '../../services/TwitchService';
 
 /**
  * Round Robin Message Command
  */
-export class RoundRobinMessageCommand implements ICommand {
-  private _trigger: string;
-  public get Trigger(): string {
-    return this._trigger;
-  }
-  private _onlyMods: boolean;
-  public get OnlyMods(): boolean {
-    return this._onlyMods;
-  }
+export class RoundRobinMessageCommand extends BaseCommand {
   private _messages: Array<string>;
   private _messageIndex = 0;
 
   constructor(
     trigger: string,
-    onlyMods: boolean,
-    messages: Array<string>) 
+    policies: CommandPolicies,
+    messages: Array<string>)
   {
-    this._trigger = trigger;
-    this._onlyMods = onlyMods;
+    super(trigger, policies);
     this._messages = messages;
   }
 

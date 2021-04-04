@@ -1,27 +1,18 @@
-import { ICommand } from '.';
+import { BaseCommand, CommandPolicies } from '.';
 import { ITwitchService } from '../../services/TwitchService';
 
 /**
  * Random Message Command
  */
-export class RandomMessageCommand implements ICommand {
-  private _trigger: string;
-  public get Trigger(): string {
-    return this._trigger;
-  }
-  private _onlyMods: boolean;
-  public get OnlyMods(): boolean {
-    return this._onlyMods;
-  }
+export class RandomMessageCommand extends BaseCommand {
   private _messages: Array<string>;
 
   constructor(
     trigger: string,
-    onlyMods: boolean,
-    messages: Array<string>) 
+    policies: CommandPolicies,
+    messages: Array<string>)
   {
-    this._trigger = trigger;
-    this._onlyMods = onlyMods;
+    super(trigger, policies);
     this._messages = messages;
   }
 
