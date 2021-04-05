@@ -13,6 +13,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Build
-        uses: ealenn/jekyll-build-action@v1
+        uses: ealenn/jekyll-build-action@v3
         with:
           path: ${{ env.working-directory }}
