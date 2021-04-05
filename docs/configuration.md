@@ -1,43 +1,11 @@
-# LarbinBot
-
-[![Codecov](https://img.shields.io/codecov/c/github/ealenn/LarbinBot?style=for-the-badge&logo=codecov)](https://codecov.io/gh/Ealenn/LarbinBot)
-[![GitHub stars](https://img.shields.io/github/stars/Ealenn/LarbinBot?style=for-the-badge&logo=github)](https://github.com/Ealenn/LarbinBot/stargazers)
-[![GitHub issues](https://img.shields.io/github/issues/Ealenn/LarbinBot?style=for-the-badge&logo=github)](https://github.com/Ealenn/LarbinBot/issues)
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/ealenn/LarbinBot?style=for-the-badge)
-![Docker Pulls](https://img.shields.io/docker/pulls/ealen/larbinbot?style=for-the-badge)
-
-Completely customizable Twitch Bot. 
-
-![](./docs/assets/images/larbinbot.png)
-
-```bash
-docker run --rm \
-  -e DEBUG=true \
-  -e LARBIN_TWITCH_USERNAME= Larbin \
-  -e LARBIN_TWITCH_PASSWORD= oic:password \
-  -e LARBIN_TWITCH_CHANNEL= example \
-  -e LARBIN_FILE= /bot \
-  -v $PWD/config:/bot \
-  ealenn/larbinbot
-```
-
-More information about deployment here [https://ealenn.github.io/LarbinBot/deployment](https://ealenn.github.io/LarbinBot/deployment)
-
-## Version
-
-The versioning scheme is [SemVer](http://semver.org/).
-
-``` yml
-- latest: Master Build
-- x.x.x: Release version x.x.x
-- snapshot: Pull Request / Internal Tests
-```
+# Configuration
 
 ## Environment Variables
 
 ``` bash
 # Path to larbin.yml configuration file
 LARBIN_FILE=/tmp
+
 # Debug mode
 DEBUG=true
 
@@ -47,30 +15,14 @@ LARBIN_TWITCH_PASSWORD: oic:password
 LARBIN_TWITCH_CHANNEL: example
 ```
 
-## Larbin Configuration File (LCF)
+## Larbin Configuration File
 
 You must configure this bot with configuration file `larbin.yml`. 
 This file contain all actions/events and commands.
 
-More information about Larbin Configuration File here [https://ealenn.github.io/LarbinBot/configuration](https://ealenn.github.io/LarbinBot/configuration)
+### Commands
 
-``` yaml
-tools:
-  commands:
-    # Command to start/stop schedulers
-    # (The schedulers is started by default on bot starting.)
-    # Example:
-    # !schedulers status
-    # !schedulers on
-    # !schedulers off
-    - type: schedulers
-      name: '!schedulers'
-      policies:
-        mod: true
-        admin: true
-      argOn: 'on'
-      argOff: 'off'
-      argStatus: 'status'
+```yaml
 commands:
   - name: '!facebook' # Command to write 
     random: false # Takes a random message from the list rather than following the order of the list
@@ -83,6 +35,11 @@ commands:
       others: true # All
     messages: 
       - 'My Twitter is https://twitter.com/example'
+```
+
+### Schedulers
+
+```yaml
 schedulers:
   - id: 'social' # Required, is only used to make this scheduler unique
     minutes: 10 # Send message every minutes
@@ -95,6 +52,11 @@ schedulers:
     - 'Text rolling 1'
     - 'Text rolling 2'
     - 'Text rolling 3'
+```
+
+### Events
+
+```yaml
 events:
   - name: 'join' # Event type
     random: true # Takes a random message from the list rather than following the order of the list 
@@ -116,6 +78,27 @@ events:
   - name: 'subscription'
     messages: 
       - 'I know someone from sub, but, I say anything, alright {{ Username }} ?'
+```
+
+### Tools
+
+```yaml
+tools:
+  commands:
+    # Command to start/stop schedulers
+    # (The schedulers is started by default on bot starting.)
+    # Example:
+    # !schedulers status
+    # !schedulers on
+    # !schedulers off
+    - type: schedulers
+      name: '!schedulers'
+      policies:
+        mod: true
+        admin: true
+      argOn: 'on'
+      argOff: 'off'
+      argStatus: 'status'
 ```
 
 ### Policies

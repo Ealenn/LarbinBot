@@ -7,6 +7,10 @@ plugins:
   - jekyll-toc
 
 navbar-links:
+  Deployment:
+    - Docker: "deployment/docker"
+    - Docker-Compose: "deployment/docker-compose"
+  Configuration: "configuration"
   Release Notes: "release-notes"
 
 # Welcome to Beautiful Jekyll!
