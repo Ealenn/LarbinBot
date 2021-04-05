@@ -9,10 +9,10 @@ jobs:
     name: Linux
     runs-on: ubuntu-latest
     env:
-      working-directory: './docs'
+      jekyll-folder: './docs'
     steps:
       - uses: actions/checkout@v2
       - name: Build
         uses: ealenn/jekyll-build-action@master
         with:
-          path: ${{ env.working-directory }}
+          path: ${{ env.jekyll-folder }}
