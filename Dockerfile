@@ -10,5 +10,9 @@ FROM node:14-alpine as final
 WORKDIR /app
 COPY --from=build /build/dist .
 COPY --from=build /build/node_modules ./node_modules
-ENTRYPOINT [ "node" ]
-CMD [ "Application.js" ]
+COPY ./docker/entrypoint.sh /app/entrypoint.sh
+RUN chmod +x /app/entrypoint.sh
+
+WORKDIR /bot
+ENV LARBIN_FILE=/bot
+ENTRYPOINT [ "/app/entrypoint.sh" ]
