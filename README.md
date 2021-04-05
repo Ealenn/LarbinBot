@@ -8,12 +8,14 @@
 
 Completely customizable Twitch Bot. 
 
+![](./assets/cli.png)
+
 ## Version
 
 The versioning scheme we use is [SemVer](http://semver.org/).
 
 ``` yml
-- lastest: Master Build
+- latest: Master Build
 - x.x.x: Release version x.x.x
 - snapshot: Pull Request / Internal Tests
 ```
@@ -22,7 +24,7 @@ The versioning scheme we use is [SemVer](http://semver.org/).
 
 > You can use [https://twitchapps.com/tmi/](https://twitchapps.com/tmi/) to generate bot password.
 
-### Struture
+### Structure
 
 ```bash
 /my-bot-folder
