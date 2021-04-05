@@ -8,27 +8,61 @@
 
 Completely customizable Twitch Bot. 
 
-## Features
+## Version
 
-- [x] Execute commands
-    - [x] Simple answer 
-    - [ ] Custom command
-- [x] Role-Based Access Control
-    - [ ] Interaction with custom APIs
-    - [ ] Interaction with twitch APIs
-        - [ ] Change Title
-        - [ ] Predictions
-- [x] Event-based Action
-    - [x] Simple answer
-        - [x] join
-        - [x] raided
-        - [x] resub
-        - [x] submysterygift
-        - [x] subgift
-        - [x] subscription
-- [x] Scheduler
-    - [x] Chat message
-    - [ ] Execute command
+The versioning scheme we use is [SemVer](http://semver.org/).
+
+``` yml
+- lastest: Master Build
+- x.x.x: Release version x.x.x
+- snapshot: Pull Request / Internal Tests
+```
+
+## Getting Started
+
+> You can use [https://twitchapps.com/tmi/](https://twitchapps.com/tmi/) to generate bot password.
+
+### Struture
+
+```bash
+/my-bot-folder
+│   docker-compose.yml
+└───config  
+|   └─── larbin.yml
+```
+
+Docker-Compose :
+```yaml
+# .../my-bot-folder/docker-compose.yml
+version: "3"
+
+services:
+  bot:
+    image: ealen/larbinbot:latest
+    environment:
+      - DEBUG: true
+      - LARBIN_FILE: /tmp
+      - LARBIN_TWITCH_USERNAME: Larbin
+      - LARBIN_TWITCH_PASSWORD: oic:password
+      - LARBIN_TWITCH_CHANNEL: example
+    volumes:
+      - ${PWD}/config:/tmp
+```
+
+Larbin Configuration File :
+```yml
+# .../my-bot-folder/config/larbin.yml
+commands:
+  - name: '!hello'
+    policies:
+      others: true
+    messages: 
+      - 'Hello from my bot !'
+```
+
+```bash
+docker-compose up -d
+```
 
 ## Larbin Configuration File (LCF)
 
@@ -62,6 +96,7 @@ LARBIN_TWITCH_CHANNEL: example
 tools:
   commands:
     # Command to start/stop schedulers
+    # (The schedulers is started by default on bot starting.)
     # Example:
     # !schedulers status
     # !schedulers on
@@ -123,30 +158,14 @@ events:
 
 ### Policies
 
+**Warning**, by default, everything is blocked for everyone. You must allow at least one.
+
 ``` yaml
 # DEFAULT POLICIES VALUES
 policies:
-  mod: false
-  admin: false
-  vip: false
-  sub: false
-  others: false
-```
-
-## Docker Compose
-
-```yaml
-version: "3"
-
-services:
-  bot:
-    image: ealen/larbinbot:latest
-    environment:
-      - DEBUG: true
-      - LARBIN_FILE: /tmp
-      - LARBIN_TWITCH_USERNAME: Larbin
-      - LARBIN_TWITCH_PASSWORD: oic:password
-      - LARBIN_TWITCH_CHANNEL: example
-    volumes:
-      - ${PWD}/config:/tmp
+  admin: false # Allow Admins/Streamer
+  mod: false # Allow Moderators
+  vip: false # Allow VIP
+  sub: false # Allow Subscriber
+  others: false # Allow/Disallow all/others
 ```
