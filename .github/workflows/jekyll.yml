@@ -9,7 +9,7 @@ jobs:
     name: Linux
     runs-on: ubuntu-latest
     env:
-      working-directory: 'docs'
+      working-directory: './docs'
     strategy:
       fail-fast: false
     steps:
@@ -25,10 +25,10 @@ jobs:
           gem install jekyll bundler
           bundle install
       - name: Build jekyll website with drafts
-        run: bundle exec jekyll build --drafts
         working-directory: ${{ env.working-directory }}
+        run: bundle exec jekyll build --drafts
       - name: Check for broken links
+        working-directory: ${{ env.working-directory }}
         run: |
           bundle exec htmlproofer --log-level :debug ./_site &> links.log
-        working-directory: ${{ env.working-directory }}
         continue-on-error: true
