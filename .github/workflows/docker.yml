@@ -18,6 +18,16 @@ jobs:
         name: Checkout
         uses: actions/checkout@v2
       -
+        name: Set up QEMU
+        id: qemu
+        uses: docker/setup-qemu-action@v1
+        with:
+          image: tonistiigi/binfmt:latest
+          platforms: all
+      -
+        name: Available platforms
+        run: echo ${{ steps.qemu.outputs.platforms }}
+      -
         name: Set up Docker Buildx
         id: buildx
         uses: docker/setup-buildx-action@v1
@@ -28,11 +38,21 @@ jobs:
         name: Available platforms
         run: echo ${{ steps.buildx.outputs.platforms }}
       -
-        name: Build
-        run: |
-          docker build .
-
-
+        name: Login to DockerHub
+        uses: docker/login-action@v1 
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      -
+        name: Build and push
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: ealen/larbinbot:snapshot
+      -
+        name: Image digest
+        run: echo ${{ steps.docker_build.outputs.digest }}
 
 
 
