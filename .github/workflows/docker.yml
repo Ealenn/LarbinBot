@@ -73,10 +73,10 @@ jobs:
           no-cache: true
           tags: ${{ steps.prepare.outputs.tags }}
           platforms: ${{ steps.prepare.outputs.platforms }}
-          build-args:
-            VERSION: ${{ steps.prepare.outputs.version }}
-            BUILD_DATE: ${{ steps.prepare.outputs.build_date }}
-            VCS_REF: ${{ steps.prepare.outputs.vcs_ref }}
+          build-args: |
+            VERSION= ${{ steps.prepare.outputs.version }}
+            BUILD_DATE= ${{ steps.prepare.outputs.build_date }}
+            VCS_REF= ${{ steps.prepare.outputs.vcs_ref }}
       -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
