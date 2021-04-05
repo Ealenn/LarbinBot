@@ -1,0 +1,34 @@
+name: Jekyll
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  jekyll:
+    name: Linux
+    runs-on: ubuntu-latest
+    env:
+      working-directory: 'docs'
+    strategy:
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v2
+      - name: Ruby
+        uses: actions/setup-ruby@v1
+        with:
+          ruby-version: 2.6.x
+      - name: Setup Rubygems, Bundler, jekyll
+        run: | 
+          gem update --system --no-document
+          gem update bundler --no-document
+          gem install jekyll bundler
+          bundle install
+      - name: Build jekyll website with drafts
+        run: bundle exec jekyll build --drafts
+        working-directory: ${{ env.working-directory }}
+      - name: Check for broken links
+        run: |
+          bundle exec htmlproofer --log-level :debug ./_site &> links.log
+        working-directory: ${{ env.working-directory }}
+        continue-on-error: true

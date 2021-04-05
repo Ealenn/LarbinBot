@@ -8,7 +8,7 @@
 
 Completely customizable Twitch Bot. 
 
-![](./assets/cli.png)
+![](./docs/assets/images/larbinbot.png)
 
 ## Version
 
@@ -21,8 +21,6 @@ The versioning scheme we use is [SemVer](http://semver.org/).
 ```
 
 ## Getting Started
-
-> You can use [https://twitchapps.com/tmi/](https://twitchapps.com/tmi/) to generate bot password.
 
 ### Structure
 
@@ -50,6 +48,8 @@ services:
     volumes:
       - ${PWD}/config:/tmp
 ```
+
+> You can use [https://twitchapps.com/tmi/](https://twitchapps.com/tmi/) to generate bot password.
 
 Larbin Configuration File :
 ```yml
