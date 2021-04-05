@@ -12,6 +12,7 @@ jobs:
       working-directory: './docs'
     steps:
       - uses: actions/checkout@v2
-      - uses: jerryjvl/jekyll-build-action@v1
-        name: 'Build'
-        working-directory: ${{ env.working-directory }}
+      - name: Build
+        uses: ealenn/jekyll-build-action@v1
+        with:
+          path: ${{ env.working-directory }}
