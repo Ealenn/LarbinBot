@@ -12,5 +12,6 @@ jobs:
         node-version: 14.x
     - name: Linter
       run: |
+        rm -rf www
         npm ci
         npm run lint
