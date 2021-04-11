@@ -4,8 +4,6 @@ on: [pull_request]
 
 jobs:
   build:
-    env:
-      NODE_ENV: production
     runs-on: ubuntu-latest
 
     steps:
@@ -19,7 +17,7 @@ jobs:
       run: |
         cd www
         npm ci
-        npm run build
+        NODE_ENV=production npm run build
 
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3
