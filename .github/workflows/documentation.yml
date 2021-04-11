@@ -4,6 +4,8 @@ on: [pull_request]
 
 jobs:
   build:
+    env:
+      NODE_ENV: production
     runs-on: ubuntu-latest
 
     steps:
@@ -16,7 +18,6 @@ jobs:
     - name: Build
       run: |
         cd www
-        export BASE_URL=https://ealenn.github.io/LarbinBot/
         npm ci
         npm run build
 

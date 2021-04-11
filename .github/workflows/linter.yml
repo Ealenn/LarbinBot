@@ -7,3 +7,6 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - uses: bradennapier/eslint-plus-action@v3.4.2
+      with:
+        configFile: ./.eslintrc.js
+        useEslintIgnore: true
