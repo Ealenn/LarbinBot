@@ -9,6 +9,7 @@ import { ILoggerService, ICryptoService } from '.';
 import { IEvent, IEventParams, RandomMessageEvent, RoundRobinMessageEvent } from '../lib/Events';
 import { IScheduler, RandomScheduler, RoundRobinScheduler } from '../lib/Schedulers';
 import { SchedulersToolsCommand } from '../lib/Commands/Tools';
+import { YamlFile, YamlPolicies } from '../lib/Yaml';
 
 /**
  * Provides tools for Yaml validation/parser
@@ -36,7 +37,7 @@ export class YamlService implements IYamlService {
     this._cryptoService = cryptoService;
   }
 
-  private getYamlContent(): any {
+  private getYamlContent(): YamlFile {
     if (this._yamlContent) {
       return this._yamlContent;
     }
@@ -53,7 +54,7 @@ export class YamlService implements IYamlService {
     return this._yamlContent;
   }
 
-  protected _getCommandPolicies(policies: any): CommandPolicies {
+  protected _getCommandPolicies(policies: YamlPolicies): CommandPolicies {
     const defaultPolicies = new CommandPolicies();
     if (!policies) {
       return defaultPolicies;

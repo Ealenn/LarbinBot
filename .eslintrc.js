@@ -20,5 +20,5 @@ module.exports = {
     "no-inline-comments": "warn",
     "quotes": ["error", "single"]
   },
-  "ignorePatterns": ["**/*.js", "**/tests/*", "**/dist/*"]
+  "ignorePatterns": ["**/*.js", "**/tests/*", "**/dist/*", "**/www/*"]
 };

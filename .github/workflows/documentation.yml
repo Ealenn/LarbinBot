@@ -1,0 +1,27 @@
+name: Documentation
+
+on: [pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Setup Node.js environment
+      uses: actions/setup-node@v2.1.5
+      with:
+        node-version: 14.x
+
+    - name: Build
+      run: |
+        cd www
+        npm ci
+        NODE_ENV=production npm run build
+
+    - name: Deploy
+      if: ${{ github.ref == 'refs/heads/master' }}
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./www/dist
