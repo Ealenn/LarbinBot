@@ -49,15 +49,16 @@ describe('Service - Twitch', function () {
 
   it('Threshold', async function () {
     // Arrange
-    const sleep = () => new Promise<void>(resolve => setTimeout(resolve, 2000));
+    const fakeCommand = '!TestThreshold';
+    const sleep = () => new Promise<void>(resolve => setTimeout(resolve, 2200));
 
     // Act
-    const result1 = twitchService["_thresholdValidation"](mockCommand.Trigger);
-    const result2 = twitchService["_thresholdValidation"](mockCommand.Trigger);
-    const result3 = twitchService["_thresholdValidation"](mockCommand.Trigger);
+    const result1 = twitchService["_thresholdValidation"](fakeCommand);
+    const result2 = twitchService["_thresholdValidation"](fakeCommand);
+    const result3 = twitchService["_thresholdValidation"](fakeCommand);
     await sleep();
-    const result4 = twitchService["_thresholdValidation"](mockCommand.Trigger);
-    const result5 = twitchService["_thresholdValidation"](mockCommand.Trigger);
+    const result4 = twitchService["_thresholdValidation"](fakeCommand);
+    const result5 = twitchService["_thresholdValidation"](fakeCommand);
 
     // Assert
     expect(result1).toBeTruthy();
@@ -65,7 +66,25 @@ describe('Service - Twitch', function () {
     expect(result3).toBeFalsy();
     expect(result4).toBeTruthy();
     expect(result5).toBeFalsy();
-  }, 5 * 1000);
+  }, 10 * 1000);
+
+  it('CommandStats', async function () {
+    // Arrange
+    const fakeCommand = '!TestCommandStats';
+    const sleep = () => new Promise<void>(resolve => setTimeout(resolve, 2200));
+
+    // Act
+    twitchService["_thresholdValidation"](fakeCommand);
+    await sleep();
+    twitchService["_thresholdValidation"](fakeCommand);
+    await sleep();
+    twitchService["_thresholdValidation"](fakeCommand);
+    const result = twitchService["_commandsStats"].get(fakeCommand);
+
+    // Assert
+    expect(result).toBeDefined();
+    expect(result?.Count).toBe(3);
+  }, 10 * 1000);
 
   it('Write', async function () {
     // Arrange

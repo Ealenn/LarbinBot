@@ -8,6 +8,7 @@ import { EventTypeParamsMapper } from '../mappers/EventTypeParamsMapper';
 import { ILoggerService } from '.';
 import { ITmiFactory } from '../factory/TmiFactory';
 import { setInterval, clearInterval } from 'timers';
+import { GenerateDefaultCommandStats, ICommandStats } from './Model/CommandStats';
 
 /**
  * Provides all twitch tools 
@@ -25,8 +26,8 @@ export interface ITwitchService {
 
 @singleton()
 export class TwitchService implements ITwitchService {
-  private _thresholdKeyDate: Map<string, Date> = new Map<string, Date>();
   private _commands: Array<ICommand> = new Array<ICommand>();
+  private _commandsStats: Map<string, ICommandStats> = new Map<string, ICommandStats>();
   private _schedulers: Array<IScheduler> = new Array<IScheduler>();
   private _schedulersIntervals: Array<NodeJS.Timeout> = new Array<NodeJS.Timeout>();
 
@@ -54,14 +55,15 @@ export class TwitchService implements ITwitchService {
     if (command != undefined) {
       if (command.CanAction(userstate, this._configuration)) {
         if (this._thresholdValidation(command.Trigger)) {
-          command.Action(this, message, userstate);
+          command.Action(this, message, userstate, this._commandsStats.get(command.Trigger) as ICommandStats);
         }
       }
     }
   }
 
   private _thresholdValidation(key: string): boolean {
-    const lastTrigger = this._thresholdKeyDate.get(key) ?? new Date(1970, 1);
+    let commandStats = this._commandsStats.get(key);
+    const lastTrigger = commandStats?.LastTrigger ?? new Date(1970, 1);
     const epochNow = new Date().getTime();
     const epochLastTrigger = lastTrigger.getTime();
     const thresholdInMiliseconds = this._configuration.App.ThresholdInSeconds * 1000;
@@ -70,7 +72,13 @@ export class TwitchService implements ITwitchService {
       return false;
     }
 
-    this._thresholdKeyDate.set(key, new Date());
+    if (!commandStats) {
+      commandStats = GenerateDefaultCommandStats();
+    }
+
+    commandStats.LastTrigger = new Date();
+    commandStats.Count = commandStats.Count + 1;
+    this._commandsStats.set(key, commandStats);
     return true;
   }
 

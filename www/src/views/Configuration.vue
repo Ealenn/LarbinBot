@@ -11,6 +11,9 @@
         # Debug mode
         DEBUG=true
 
+        # Single command threshold per second
+        LARBIN_THRESHOLD=5
+
         # Twitch Credentials
         LARBIN_TWITCH_USERNAME: Larbin
         LARBIN_TWITCH_PASSWORD: oic:password
@@ -37,6 +40,7 @@
               others: true # All
             messages: 
               - 'My Facebook is https://facebook.com/example'
+              - 'Like Facebook page https://twitter.com/example (This question has been asked {{ Count }} times)'
       `" />
     </v-container>
 

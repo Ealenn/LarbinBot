@@ -1,4 +1,6 @@
+import { ChatUserstate } from 'tmi.js';
 import { BaseCommand, CommandPolicies } from '.';
+import { ICommandStats } from '../../services/Model/CommandStats';
 import { ITwitchService } from '../../services/TwitchService';
 
 /**
@@ -26,7 +28,8 @@ export class RoundRobinMessageCommand extends BaseCommand {
     return message;
   }
 
-  public Action(twitchService: ITwitchService): void {
-    twitchService.Write(this.getMessage());
+  public Action(twitchService: ITwitchService, fullMessage: string, userState: ChatUserstate, stats: ICommandStats): void {
+    const messageWithStats = this._replaceWithVariables(this.getMessage(), stats);
+    twitchService.Write(messageWithStats);
   }
 }
