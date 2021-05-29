@@ -68,6 +68,7 @@ export class YamlService implements IYamlService {
       Others: policies.others ?? defaultPolicies.Others
     } as CommandPolicies;
   }
+
   public getCommands(): Array<ICommand> {
     const yamlContent = this.getYamlContent();
     const commands = new Array<ICommand>();

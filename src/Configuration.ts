@@ -7,6 +7,7 @@ export class AppConfiguration {
   public Debug: boolean;
   public ConfigurationPath: string;
   public ConfigurationFile: string;
+  public ThresholdInSeconds: number;
 }
 
 /**
@@ -36,7 +37,8 @@ export class Configuration implements IConfiguration {
     this.App = {
       Debug: process.env.DEBUG?.toLocaleLowerCase() == 'true' ?? false,
       ConfigurationPath: process.env.LARBIN_FILE as string || __dirname,
-      ConfigurationFile: 'larbin.yml'
+      ConfigurationFile: 'larbin.yml',
+      ThresholdInSeconds: Number.parseInt(process.env.LARBIN_THRESHOLD as string || '5')
     };
 
     // Twitch

@@ -7,6 +7,7 @@ describe('Configuration', function () {
     // Arrange
     process.env.DEBUG = 'true';
     process.env.LARBIN_FILE = '/tmp/example';
+    process.env.LARBIN_THRESHOLD = '10';
 
     // Act
     const configuration = new Configuration();
@@ -15,7 +16,8 @@ describe('Configuration', function () {
     expect(configuration.App).toStrictEqual({
       Debug: true,
       ConfigurationPath: '/tmp/example',
-      ConfigurationFile: 'larbin.yml'
+      ConfigurationFile: 'larbin.yml',
+      ThresholdInSeconds: 10
     } as AppConfiguration);
   });
 
@@ -23,6 +25,7 @@ describe('Configuration', function () {
     // Arrange
     delete process.env.DEBUG;
     delete process.env.LARBIN_FILE;
+    delete process.env.LARBIN_THRESHOLD;
 
     // Act
     const configuration = new Configuration();
@@ -33,7 +36,8 @@ describe('Configuration', function () {
     expect(configuration.App).toStrictEqual({
       Debug: false,
       ConfigurationPath: configuration.App.ConfigurationPath,
-      ConfigurationFile: 'larbin.yml'
+      ConfigurationFile: 'larbin.yml',
+      ThresholdInSeconds: 5
     } as AppConfiguration);
   });
 
