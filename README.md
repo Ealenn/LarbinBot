@@ -40,8 +40,10 @@ The versioning scheme is [SemVer](http://semver.org/).
 LARBIN_FILE=/tmp
 # Debug mode
 DEBUG=true
+# Single command threshold per second
+LARBIN_THRESHOLD=5
 
-# Twitch Credentials
+# Twitch Credentials (mandatory)
 LARBIN_TWITCH_USERNAME: Larbin
 LARBIN_TWITCH_PASSWORD: oic:password
 LARBIN_TWITCH_CHANNEL: example

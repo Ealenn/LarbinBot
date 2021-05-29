@@ -25,6 +25,7 @@ export interface ITwitchService {
 
 @singleton()
 export class TwitchService implements ITwitchService {
+  private _thresholdKeyDate: Map<string, Date> = new Map<string, Date>();
   private _commands: Array<ICommand> = new Array<ICommand>();
   private _schedulers: Array<IScheduler> = new Array<IScheduler>();
   private _schedulersIntervals: Array<NodeJS.Timeout> = new Array<NodeJS.Timeout>();
@@ -45,14 +46,32 @@ export class TwitchService implements ITwitchService {
 
   public Listen(): void {
     this.StartSchedulers();
-    this._client.on('message', (channels, userstate, message) => {
-      const command = this._commands.find((x) => message.startsWith(x.Trigger));
-      if (command != undefined) {
-        if (command.CanAction(userstate, this._configuration)) {
+    this._client.on('message', this._processTwitchMessage);
+  }
+
+  private _processTwitchMessage(channels: string, userstate: any, message: string) {
+    const command = this._commands.find((x) => message.startsWith(x.Trigger));
+    if (command != undefined) {
+      if (command.CanAction(userstate, this._configuration)) {
+        if (this._thresholdValidation(command.Trigger)) {
           command.Action(this, message, userstate);
         }
       }
-    });
+    }
+  }
+
+  private _thresholdValidation(key: string): boolean {
+    const lastTrigger = this._thresholdKeyDate.get(key) ?? new Date(1970, 1);
+    const epochNow = new Date().getTime();
+    const epochLastTrigger = lastTrigger.getTime();
+    const thresholdInMiliseconds = this._configuration.App.ThresholdInSeconds * 1000;
+
+    if (!(epochLastTrigger + thresholdInMiliseconds < epochNow)) {
+      return false;
+    }
+
+    this._thresholdKeyDate.set(key, new Date());
+    return true;
   }
 
   public Write(message: string): void {
