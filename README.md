@@ -80,11 +80,12 @@ commands:
       others: true # All
     messages: 
       - 'My Facebook is https://facebook.com/example'
+      - 'Like my Facebook page https://facebook.com/example'
   - name: '!twitter'
     policies:
       others: true # All
     messages: 
-      - 'My Twitter is https://twitter.com/example'
+      - 'My Twitter is https://twitter.com/example (This question has been asked {{ Count }} times)'
 schedulers:
   - id: 'social' # Required, is only used to make this scheduler unique
     minutes: 10 # Send message every minutes
