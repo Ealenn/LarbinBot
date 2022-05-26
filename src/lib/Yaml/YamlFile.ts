@@ -2,7 +2,8 @@ import { EventType } from '../Events';
 
 export class YamlFile {
   constructor(
-    public tools: any,
+    public tools?: any,
+    public socials?: any,
     public commands = new Array<YamlCommand>(),
     public schedulers = new Array<YamlScheduler>(),
     public events = new Array<YamlEvent>(),

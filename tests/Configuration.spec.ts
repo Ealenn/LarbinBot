@@ -1,9 +1,9 @@
 import "reflect-metadata"
 import { AppConfiguration, Configuration, TwitchConfiguration } from "../src/Configuration";
 
-describe('Configuration', function () {
+describe('Configuration', () => {
 
-  it('App - With environment', async function () {
+  it('App - With environment', async () => {
     // Arrange
     process.env.DEBUG = 'true';
     process.env.LARBIN_FILE = '/tmp/example';
@@ -21,7 +21,7 @@ describe('Configuration', function () {
     } as AppConfiguration);
   });
 
-  it('App - Without environment', async function () {
+  it('App - Without environment', async () => {
     // Arrange
     delete process.env.DEBUG;
     delete process.env.LARBIN_FILE;
@@ -41,7 +41,7 @@ describe('Configuration', function () {
     } as AppConfiguration);
   });
 
-  it('Twitch - With environment', async function () {
+  it('Twitch - With environment', async () => {
     // Arrange
     process.env.LARBIN_TWITCH_USERNAME = 'John';
     process.env.LARBIN_TWITCH_PASSWORD = 'Smith';
@@ -58,7 +58,7 @@ describe('Configuration', function () {
     } as TwitchConfiguration);
   });
 
-  it('Twitch - Without environment', async function () {
+  it('Twitch - Without environment', async () => {
     // Arrange
     delete process.env.LARBIN_TWITCH_USERNAME;
     delete process.env.LARBIN_TWITCH_PASSWORD;

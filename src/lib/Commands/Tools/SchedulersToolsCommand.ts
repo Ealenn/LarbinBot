@@ -26,7 +26,7 @@ export class SchedulersToolsCommand extends BaseCommand {
     this._argStatus = argStatus;
   }
 
-  public Action(twitchService: ITwitchService, fullText: string): void {
+  public async Action(twitchService: ITwitchService, fullText: string): Promise<void> {
     const command = fullText.split(' ');
     if (command.length !== 2){
       return;

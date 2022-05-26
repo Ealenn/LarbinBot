@@ -50,12 +50,12 @@ export class TwitchService implements ITwitchService {
     this._client.on('message', this._processTwitchMessage);
   }
 
-  private _processTwitchMessage(channels: string, userstate: any, message: string) {
+  private async _processTwitchMessage(channels: string, userstate: any, message: string): Promise<void> {
     const command = this._commands.find((x) => message.startsWith(x.Trigger));
     if (command != undefined) {
       if (command.CanAction(userstate, this._configuration)) {
         if (this._thresholdValidation(command.Trigger)) {
-          command.Action(this, message, userstate, this._commandsStats.get(command.Trigger) as ICommandStats);
+          await command.Action(this, message, userstate, this._commandsStats.get(command.Trigger) as ICommandStats);
         }
       }
     }

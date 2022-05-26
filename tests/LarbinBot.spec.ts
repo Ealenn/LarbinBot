@@ -7,7 +7,7 @@ import { CommandPolicies, ICommand } from '../src/lib/Commands';
 import { EventType, IEvent, IEventParams } from '../src/lib/Events';
 import { IScheduler } from '../src/lib/Schedulers';
 
-describe('LarbinBot', function () {
+describe('LarbinBot', () => {
   let larbinBot : LarbinBot;
   let mockConfiguration : Mock<Configuration>;
   let mockYamlService : Mock<YamlService>;
@@ -35,7 +35,7 @@ describe('LarbinBot', function () {
       mockTwitchService.object());
   });
 
-  it('Commands', async function () {
+  it('Commands', async () => {
     // Arrange
     const numberOfResult = 10;
     const returns = new Array<ICommand>();
@@ -43,7 +43,7 @@ describe('LarbinBot', function () {
       const mockCommand = new Mock<ICommand>();
       mockCommand.setup(x => x.Trigger).returns(`!${i}`);
       mockCommand.setup(x => x.Policies).returns(new CommandPolicies());
-      mockCommand.setup(x => x.Action).returns(() => {});
+      mockCommand.setup(x => x.Action).returns(async () => {});
       returns.push(mockCommand.object());
     }
     mockYamlService.setup(x => x.getCommands()).returns(returns);
@@ -65,7 +65,7 @@ describe('LarbinBot', function () {
     mockTwitchService.verify(x => x.AddScheduler, Times.Never());
   });
 
-  it('Events', async function () {
+  it('Events', async () => {
     // Arrange
     const numberOfResult = 10;
     const returns = new Array<IEvent<IEventParams>>();
@@ -94,7 +94,7 @@ describe('LarbinBot', function () {
     mockTwitchService.verify(x => x.AddScheduler, Times.Never());
   });
 
-  it('Schedulers', async function () {
+  it('Schedulers', async () => {
     // Arrange
     const numberOfResult = 10;
     const returns = new Array<IScheduler>();

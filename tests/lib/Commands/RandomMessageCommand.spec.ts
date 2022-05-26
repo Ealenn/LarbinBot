@@ -3,8 +3,8 @@ import { It, Mock, Times } from 'moq.ts';
 import { CommandPolicies, RandomMessageCommand } from '../../../src/lib/Commands';
 import { ITwitchService } from '../../../src/services';
 
-describe('Commands - RandomMessageCommand', function () {
-  it('Message', async function () {
+describe('Commands - RandomMessageCommand', () => {
+  it('Message', async () => {
     // Arrange
     const Trigger = '!command';
     const FullText = Trigger;
@@ -32,7 +32,7 @@ describe('Commands - RandomMessageCommand', function () {
     twitchService.verify(x => x.Write(messages[2]), Times.AtLeastOnce());
   });
 
-  it('Stats', async function () {
+  it('Stats', async () => {
     // Arrange
     const Trigger = '!command';
     const FullText = Trigger;
