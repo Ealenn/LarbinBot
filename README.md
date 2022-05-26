@@ -21,7 +21,7 @@ docker run --rm \
   ealenn/larbinbot
 ```
 
-More information about deployment here [https://ealenn.github.io/LarbinBot/deployment](https://ealenn.github.io/LarbinBot/deployment)
+More information about deployment here [https://ealenn.github.io/LarbinBot/deployment](https://ealenn.github.io/LarbinBot)
 
 ## Version
 
