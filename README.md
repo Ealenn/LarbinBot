@@ -21,7 +21,7 @@ docker run --rm \
   ealenn/larbinbot
 ```
 
-More information about deployment here [https://ealenn.github.io/LarbinBot/deployment](https://ealenn.github.io/LarbinBot/deployment)
+More information about deployment here [https://ealenn.github.io/LarbinBot/deployment](https://ealenn.github.io/LarbinBot)
 
 ## Version
 
@@ -47,6 +47,12 @@ LARBIN_THRESHOLD=5
 LARBIN_TWITCH_USERNAME: Larbin
 LARBIN_TWITCH_PASSWORD: oic:password
 LARBIN_TWITCH_CHANNEL: example
+
+# Twitter Credentials (optional)
+LARBIN_TWITTER_TOKEN: <Bearer or Token>
+
+# Discord Credentials (optional)
+LARBIN_DISCORD_TOKEN: <Bearer or Token>
 ```
 
 ## Larbin Configuration File (LCF)
@@ -73,6 +79,26 @@ tools:
       argOn: 'on'
       argOff: 'off'
       argStatus: 'status'
+socials:
+  commands:
+    # Command to tweet anything
+    # Example:
+    # !tweet The live will begin!
+    # !tweet Awesome twitch.tv/twitch/clip/ObservantBenevolentCarabeefPhilosoraptor
+    - type: twitter
+      name: '!tweet'
+      policies:
+        admin: true
+      argFooter: 'Live ▶ twitch.tv/{{ Channel }}'
+    # Command to send discord message on channel
+    # Example:
+    # !clip twitch.tv/twitch/clip/ObservantBenevolentCarabeefPhilosoraptor
+    - type: discord
+      name: '!clip'
+      policies:
+        admin: true
+        mod: true
+      argChannelId: 111222333444555666
 commands:
   - name: '!facebook' # Command to write 
     random: false # Takes a random message from the list rather than following the order of the list

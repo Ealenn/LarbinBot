@@ -6,7 +6,7 @@ import { ITmiFactory } from '../../src/factory/TmiFactory';
 import { ChatUserstate, Client } from 'tmi.js';
 import { CommandPolicies, ICommand } from '../../src/lib/Commands';
 
-describe('Service - Twitch', function () {
+describe('Service - Twitch', () => {
   let twitchService : TwitchService;
   let mockConfiguration : Mock<IConfiguration>;
   const twitchConfiguration = {
@@ -38,7 +38,7 @@ describe('Service - Twitch', function () {
     policies.Others = true;
 
     mockCommand = {
-      Action: () => {},
+      Action: async () => {},
       CanAction: () => true,
       Policies: policies,
       Trigger: '!test'
@@ -47,7 +47,7 @@ describe('Service - Twitch', function () {
     twitchService.AddCommand(mockCommand);
   });
 
-  it('Threshold', async function () {
+  it('Threshold', async () => {
     // Arrange
     const fakeCommand = '!TestThreshold';
     const sleep = () => new Promise<void>(resolve => setTimeout(resolve, 2200));
@@ -68,7 +68,7 @@ describe('Service - Twitch', function () {
     expect(result5).toBeFalsy();
   }, 10 * 1000);
 
-  it('CommandStats', async function () {
+  it('CommandStats', async () => {
     // Arrange
     const fakeCommand = '!TestCommandStats';
     const sleep = () => new Promise<void>(resolve => setTimeout(resolve, 2200));
@@ -86,7 +86,7 @@ describe('Service - Twitch', function () {
     expect(result?.Count).toBe(3);
   }, 10 * 1000);
 
-  it('Write', async function () {
+  it('Write', async () => {
     // Arrange
     const message = 'Hello !';
     mockClient.setup(x => x.say(twitchConfiguration.Channel, It.IsAny())).returns(new Promise<[string]>(() => {}));

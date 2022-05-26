@@ -9,12 +9,12 @@ class SampleCommand extends BaseCommand {
     super(trigger, policies);
   }
 
-  public Action(): void {}
+  public async Action(): Promise<void> {}
 }
 
-describe('Commands - BaseCommand', function () {
+describe('Commands - BaseCommand', () => {
 
-  it('Properties', async function () {
+  it('Properties', async () => {
     // Arrange
     const Trigger = '!trigger';
     const Policies = new CommandPolicies();
@@ -27,7 +27,7 @@ describe('Commands - BaseCommand', function () {
     expect(command.Policies).toBe(Policies);
   });
 
-  it('CanAction - Mods', async function () {
+  it('CanAction - Mods', async () => {
     const _testMods = (isOnlyMod: boolean, isUserMod: boolean, expectResult: boolean) => {
       // Arrange
       const Trigger = '!trigger';
@@ -48,7 +48,7 @@ describe('Commands - BaseCommand', function () {
     _testMods(true, false, false);
   });
 
-  it('CanAction - Admin', async function () {
+  it('CanAction - Admin', async () => {
     const _testMods = (isOnlyAdmin: boolean, isUserAdmin: boolean, expectResult: boolean) => {
       // Arrange
       const Trigger = '!trigger';
@@ -71,7 +71,7 @@ describe('Commands - BaseCommand', function () {
     _testMods(true, false, false);
   });
 
-  it('CanAction - VIP', async function () {
+  it('CanAction - VIP', async () => {
     const _testMods = (isOnlyVip: boolean, isUserVip: boolean, expectResult: boolean) => {
       // Arrange
       const Trigger = '!trigger';
@@ -94,7 +94,7 @@ describe('Commands - BaseCommand', function () {
     _testMods(true, false, false);
   });
 
-  it('CanAction - Sub', async function () {
+  it('CanAction - Sub', async () => {
     const _testMods = (isOnlySub: boolean, isUserSub: boolean, expectResult: boolean) => {
       // Arrange
       const Trigger = '!trigger';
@@ -115,7 +115,7 @@ describe('Commands - BaseCommand', function () {
     _testMods(true, false, false);
   });
 
-  it('CanAction - Others', async function () {
+  it('CanAction - Others', async () => {
     const _testMods = (others: boolean, expectResult: boolean) => {
       // Arrange
       const Trigger = '!trigger';

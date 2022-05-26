@@ -3,9 +3,9 @@ import { It, Mock, Times } from 'moq.ts';
 import { EventType, JoinEventParams, RandomMessageEvent } from '../../../src/lib/Events';
 import { ITwitchService } from '../../../src/services';
 
-describe('Events - RandomMessageEvent', function () {
+describe('Events - RandomMessageEvent', () => {
 
-  it('Message', async function () {
+  it('Message', async () => {
     // Arrange
     const _EventType = EventType.JOIN;
     const _EventParams = {

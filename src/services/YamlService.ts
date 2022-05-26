@@ -4,7 +4,7 @@ import { IConfiguration } from '../Configuration';
 import YAML from 'yaml';
 import FS from 'fs';
 import Path from 'path';
-import { CommandPolicies, ICommand, RandomMessageCommand, RoundRobinMessageCommand } from '../lib/Commands';
+import { CommandPolicies, DiscordCommand, ICommand, RandomMessageCommand, RoundRobinMessageCommand, TwitterCommand } from '../lib/Commands';
 import { ILoggerService, ICryptoService } from '.';
 import { IEvent, IEventParams, RandomMessageEvent, RoundRobinMessageEvent } from '../lib/Events';
 import { IScheduler, RandomScheduler, RoundRobinScheduler } from '../lib/Schedulers';
@@ -96,6 +96,23 @@ export class YamlService implements IYamlService {
           element.argOn,
           element.argOff,
           element.argStatus));
+      }
+    });
+
+    yamlContent.socials?.commands?.forEach((element: any) => {
+      if (element.type === 'twitter') {
+        commands.push(new TwitterCommand(
+          element.name,
+          this._getCommandPolicies(element.policies),
+          this._configuration,
+          element.argFooter));
+      }
+      if (element.type === 'discord') {
+        commands.push(new DiscordCommand(
+          element.name,
+          this._getCommandPolicies(element.policies),
+          this._configuration,
+          element.argChannelId));
       }
     });
 

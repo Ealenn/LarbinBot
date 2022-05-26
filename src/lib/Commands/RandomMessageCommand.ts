@@ -22,7 +22,7 @@ export class RandomMessageCommand extends BaseCommand {
     return this._messages[Math.floor(Math.random() * this._messages.length)];
   }
 
-  public Action(twitchService: ITwitchService, fullMessage: string, userState: ChatUserstate, stats: ICommandStats): void {
+  public async Action(twitchService: ITwitchService, fullMessage: string, userState: ChatUserstate, stats: ICommandStats): Promise<void> {
     const messageWithStats = this._replaceWithVariables(this.getMessage(), stats);
     twitchService.Write(messageWithStats);
   }

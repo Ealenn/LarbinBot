@@ -1,14 +1,14 @@
 import 'reflect-metadata'
 import { CryptoService } from '../../src/services';
 
-describe('Service - CryptoService', function () {
+describe('Service - CryptoService', () => {
   let cryptoService : CryptoService;
 
   beforeEach(() => {
     cryptoService = new CryptoService();
   });
 
-  it('UniqueString', async function () {
+  it('UniqueString', async () => {
     const MaximumLength = 100;
     const StepLength = 5;
 

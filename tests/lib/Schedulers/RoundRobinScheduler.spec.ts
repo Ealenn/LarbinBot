@@ -3,9 +3,9 @@ import { It, Mock, Times } from 'moq.ts';
 import { RoundRobinScheduler } from '../../../src/lib/Schedulers';
 import { ITwitchService } from '../../../src/services';
 
-describe('Schedulers - RoundRobinMessageEvent', function () {
+describe('Schedulers - RoundRobinMessageEvent', () => {
 
-  it('Message', async function () {
+  it('Message', async () => {
     // Arrange
     const Id = 'Test#Id';
     const Minutes = 42;

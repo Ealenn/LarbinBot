@@ -3,8 +3,8 @@ import { It, Mock, Times } from 'moq.ts';
 import { CommandPolicies, RoundRobinMessageCommand } from '../../../src/lib/Commands';
 import { ITwitchService } from '../../../src/services';
 
-describe('Commands - RoundRobinMessageCommand', function () {
-  it('Message', async function () {
+describe('Commands - RoundRobinMessageCommand', () => {
+  it('Message', async () => {
     // Arrange
     const Trigger = '!command';
     const FullText = Trigger;
@@ -32,7 +32,7 @@ describe('Commands - RoundRobinMessageCommand', function () {
     twitchService.verify(x => x.Write(messages[2]), Times.Exactly(10));
   });
 
-  it('Stats', async function () {
+  it('Stats', async () => {
     // Arrange
     const Trigger = '!command';
     const FullText = Trigger;

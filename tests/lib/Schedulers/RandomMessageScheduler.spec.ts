@@ -3,9 +3,9 @@ import { It, Mock, Times } from 'moq.ts';
 import { RandomScheduler } from '../../../src/lib/Schedulers';
 import { ITwitchService } from '../../../src/services';
 
-describe('Schedulers - RandomMessageEvent', function () {
+describe('Schedulers - RandomMessageEvent', () => {
 
-  it('Message', async function () {
+  it('Message', async () => {
     // Arrange
     const Id = 'Test#Id';
     const Minutes = 42;

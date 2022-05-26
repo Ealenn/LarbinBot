@@ -5,9 +5,9 @@ import { SchedulersToolsCommand } from '../../../../src/lib/Commands/Tools';
 import { ITwitchService } from '../../../../src/services';
 import { Configuration } from '../../../../src/Configuration';
 
-describe('Commands - Tools - SchedulersToolsCommand', function () {
+describe('Commands - Tools - SchedulersToolsCommand', () => {
 
-  it('Action', async function () {
+  it('Action', async () => {
     // Arrange
     const Trigger = '!command';
     const FullText = Trigger;
